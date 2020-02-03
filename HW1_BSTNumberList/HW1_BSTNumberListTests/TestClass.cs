@@ -20,6 +20,107 @@ namespace HW1_BSTNumberList
     public class TestClass
     {
         // ----------------------------------
+        // BST NODE GET TESTS:
+        // ----------------------------------
+
+        /// <summary>
+        /// Tests normal case for IntBSTNode GetValue method.
+        /// </summary>
+        [Test]
+        public void TestBSTNodeGetValueNormal()
+        {
+            IntBSTNode node = new IntBSTNode(10);
+            Assert.That(node.GetValue(), Is.EqualTo(10), "IntBSTNode returned unexpected value");
+        }
+
+        /// <summary>
+        /// Tests normal case for IntBSTNode GetLeftChild method.
+        /// </summary>
+        [Test]
+        public void TestBSTNodeGetLeftNormal()
+        {
+            IntBSTNode left = new IntBSTNode(5);
+            IntBSTNode node = new IntBSTNode(0, left, null);
+            Assert.That(node.GetLeftChild(), Is.EqualTo(left), "IntBSTNode returned unexpected left child");
+        }
+
+        /// <summary>
+        /// Tests normal case for IntBSTNode GetRightChild method.
+        /// </summary>
+        [Test]
+        public void TestBSTNodeGetRightNormal()
+        {
+            IntBSTNode right = new IntBSTNode(5);
+            IntBSTNode node = new IntBSTNode(0, null, right);
+            Assert.That(node.GetRightChild(), Is.EqualTo(right), "IntBSTNode returned unexpected right child");
+        }
+
+        /// <summary>
+        /// Tests null case for IntBSTNode GetRightChild method.
+        /// </summary>
+        [Test]
+        public void TestBSTGetNodeNull()
+        {
+            IntBSTNode node = new IntBSTNode(0, null, null);
+            Assert.That(node.GetLeftChild(), Is.EqualTo(null), "IntBSTNode returned unexpected left child");
+            Assert.That(node.GetRightChild(), Is.EqualTo(null), "IntBSTNode returned unexpected right child");
+        }
+
+        // ----------------------------------
+        // BST NODE SET TESTS:
+        // ----------------------------------
+
+        /// <summary>
+        /// Tests normal case for IntBSTNode SetValue method.
+        /// </summary>
+        [Test]
+        public void TestBSTNodSetValueNormal()
+        {
+            IntBSTNode node = new IntBSTNode(10);
+            node.SetValue(20);
+            Assert.That(node.GetValue(), Is.EqualTo(20), "IntBSTNode set unexpected value");
+        }
+
+        /// <summary>
+        /// Tests normal case for IntBSTNode SetLeftChild methods.
+        /// </summary>
+        [Test]
+        public void TestBSTNodeSetLeftNormal()
+        {
+            IntBSTNode node = new IntBSTNode(0, null, null);
+            IntBSTNode left = new IntBSTNode(5);
+            node.SetLeftChild(left);
+            Assert.That(node.GetLeftChild(), Is.EqualTo(left), "IntBSTNode set unexpected left child");
+        }
+
+        /// <summary>
+        /// Tests normal case for IntBSTNode SetRightChild methods.
+        /// </summary>
+        [Test]
+        public void TestBSTNodeSetRightNormal()
+        {
+            IntBSTNode node = new IntBSTNode(0, null, null);
+            IntBSTNode right = new IntBSTNode(5);
+            node.SetRightChild(right);
+            Assert.That(node.GetRightChild(), Is.EqualTo(right), "IntBSTNode set unexpected right child");
+        }
+
+        /// <summary>
+        /// Tests null case for IntBSTNode SetRightChild methods.
+        /// </summary>
+        [Test]
+        public void TestBSTSetNodeNull()
+        {
+            IntBSTNode left = new IntBSTNode(5);
+            IntBSTNode right = new IntBSTNode(10);
+            IntBSTNode node = new IntBSTNode(0, left, right);
+            node.SetLeftChild(null);
+            node.SetRightChild(null);
+            Assert.That(node.GetLeftChild(), Is.EqualTo(null), "IntBSTNode set unexpected left child");
+            Assert.That(node.GetRightChild(), Is.EqualTo(null), "IntBSTNode set unexpected right child");
+        }
+
+        // ----------------------------------
         // BST ADD TESTS:
         // ----------------------------------
 
