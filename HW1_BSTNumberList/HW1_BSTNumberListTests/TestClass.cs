@@ -157,7 +157,7 @@ namespace HW1_BSTNumberList
             tree.Add(420);
             Assert.That(tree.GetOrderedTree(), Is.EqualTo("1 8 420"), "IntBST did not add new item correctly");
             tree.Add(8);
-            Assert.That(tree.GetOrderedTree(), Is.EqualTo("1 8 51 420"), "IntBST did not add duplicate item correctly");
+            Assert.That(tree.GetOrderedTree(), Is.EqualTo("1 8 420"), "IntBST did not add duplicate item correctly");
         }
 
         // ----------------------------------
