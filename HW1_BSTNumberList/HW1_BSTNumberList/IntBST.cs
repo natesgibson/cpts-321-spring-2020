@@ -18,10 +18,30 @@ namespace HW1_BSTNumberList
     public class IntBST
     {
         /// <summary>
+        /// Root node of tree.
+        /// </summary>
+        private IntBSTNode root = null;
+
+        /// <summary>
+        /// Number of items in the tree.
+        /// </summary>
+        private int size = 0;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="IntBST"/> class.
         /// </summary>
         public IntBST()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IntBST"/> class.
+        /// </summary>
+        /// <param name="newRoot">New root node of tree.</param>
+        public IntBST(IntBSTNode newRoot)
+        {
+            this.root = newRoot;
+            this.size++;
         }
 
         /// <summary>
@@ -30,6 +50,52 @@ namespace HW1_BSTNumberList
         /// <param name="newInt">(Int) value of new node.</param>
         public void Add(int newInt)
         {
+            if (this.root == null)
+            {
+                this.root = new IntBSTNode(newInt);
+                this.size++;
+            }
+            else
+            {
+                this.AddHelper(this.root, newInt);
+            }
+        }
+
+        /// <summary>
+        /// Recursively navigates down tree and adds node to appropriate spot.
+        /// Terminates if new value is found to be a duplicate.
+        /// </summary>
+        /// <param name="currNode">Current node in tree.</param>
+        /// <param name="newInt">New value to be added to tree.</param>
+        private void AddHelper(IntBSTNode currNode, int newInt)
+        {
+            int currValue = currNode.GetValue();
+            if (newInt < currValue)
+            {
+                IntBSTNode left = currNode.GetLeftChild();
+                if (left != null)
+                {
+                    this.AddHelper(left, newInt);
+                }
+                else
+                {
+                    currNode.SetLeftChild(new IntBSTNode(newInt));
+                    this.size++;
+                }
+            }
+            else if (newInt > currValue)
+            {
+                IntBSTNode right = currNode.GetRightChild();
+                if (right != null)
+                {
+                    this.AddHelper(right, newInt);
+                }
+                else
+                {
+                    currNode.SetRightChild(new IntBSTNode(newInt));
+                    this.size++;
+                }
+            }
         }
 
         /// <summary>
@@ -47,7 +113,7 @@ namespace HW1_BSTNumberList
         /// <returns>Number of items in the tree.</returns>
         public int GetSize()
         {
-            return 0;
+            return this.size;
         }
 
         /// <summary>

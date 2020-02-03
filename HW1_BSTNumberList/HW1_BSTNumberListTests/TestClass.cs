@@ -125,7 +125,7 @@ namespace HW1_BSTNumberList
         // ----------------------------------
 
         /// <summary>
-        /// Tests normal case for IntBST Add method.
+        /// Tests normal case for IntBST Add method. Contingent on IntBST GetOrderedTree method.
         /// </summary>
         [Test]
         public void TestBSTAddNormal()
@@ -143,7 +143,7 @@ namespace HW1_BSTNumberList
         }
 
         /// <summary>
-        /// Tests duplicate input case for IntBST Add method.
+        /// Tests duplicate input case for IntBST Add method. Contingent on IntBST GetOrderedTree method.
         /// </summary>
         [Test]
         public void TestBSTAddDuplicate()
