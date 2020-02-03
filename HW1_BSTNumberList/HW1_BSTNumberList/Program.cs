@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace HW1_BSTNumberList
 {
     /// <summary>
-    /// Class contains the main method for BST Number List C# console application.
+    /// Contains the main method for BST Number List C# console application.
     /// </summary>
     public class Program
     {
