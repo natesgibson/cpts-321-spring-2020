@@ -128,7 +128,7 @@ namespace HW1_BSTNumberList
         }
 
         // ----------------------------------
-        // BST NUMLEVELS TESTS:
+        // BST GETNUMLEVELS TESTS:
         // ----------------------------------
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace HW1_BSTNumberList
         [Test]
         public void TestBSTGetNumLevelsNormal()
         {
-            IntBST tree = BuildIntBST(new int[] { 1, 2, 3 });
+            IntBST tree = BuildIntBST(new int[] { 2, 1, 3 });
             Assert.That(tree.GetNumLevels(), Is.EqualTo(2), "IntBST returned wrong number of levels");
         }
 
@@ -158,11 +158,11 @@ namespace HW1_BSTNumberList
         public void TestBSTGetNumLevelsDuplicate()
         {
             IntBST tree = BuildIntBST(new int[] { 1, 1, 2, 3, 1, 2 });
-            Assert.That(tree.GetNumLevels(), Is.EqualTo(2), "IntBST returned wrong number of levels");
+            Assert.That(tree.GetNumLevels(), Is.EqualTo(3), "IntBST returned wrong number of levels");
         }
 
         // ----------------------------------
-        // NOT TESTS:
+        // NON-TESTS:
         // ----------------------------------
 
         /// <summary>
