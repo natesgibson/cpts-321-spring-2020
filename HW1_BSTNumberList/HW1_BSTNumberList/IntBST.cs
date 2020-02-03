@@ -104,7 +104,40 @@ namespace HW1_BSTNumberList
         /// <returns>Ordered list string.</returns>
         public string GetOrderedTree()
         {
-            return string.Empty;
+            string list = string.Empty;
+
+            if (this.root != null)
+            {
+                list = this.GetOrderedTreeHelper(this.root, list);
+            }
+
+            return list.Trim();
+        }
+
+        /// <summary>
+        /// Recursively navigates down tree and adds items in sorted order to list string.
+        /// </summary>
+        /// <param name="currNode">Current node in tree.</param>
+        /// <param name="list">Current ordered list of items in tree.</param>
+        /// <returns>Updated ordered list of items in tree.</returns>
+        private string GetOrderedTreeHelper(IntBSTNode currNode, string list)
+        {
+            IntBSTNode left = currNode.GetLeftChild();
+            IntBSTNode right = currNode.GetRightChild();
+
+            if (left != null)
+            {
+                list = this.GetOrderedTreeHelper(left, list);
+            }
+
+            list += currNode.GetValue() + " ";
+
+            if (right != null)
+            {
+                list = this.GetOrderedTreeHelper(right, list);
+            }
+
+            return list;
         }
 
         /// <summary>
