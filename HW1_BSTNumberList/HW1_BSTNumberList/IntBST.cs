@@ -155,7 +155,26 @@ namespace HW1_BSTNumberList
         /// <returns>Number of levels in tree.</returns>
         public int GetNumLevels()
         {
-            return 0;
+            return this.GetNumLevelsHelper(this.root, 0);
+        }
+
+        /// <summary>
+        /// Recursively navigates down tree to find the lowest level.
+        /// Returns the total number of levels in the tree.
+        /// </summary>
+        /// <param name="currNode">Current node in tree.</param>
+        /// <param name="levels">Current number of levels in tree.</param>
+        /// <returns>Updated number of levels in tree.</returns>
+        private int GetNumLevelsHelper(IntBSTNode currNode, int levels)
+        {
+            if (currNode != null)
+            {
+                levels = 1 + Math.Max(
+                                    this.GetNumLevelsHelper(currNode.GetLeftChild(), levels),
+                                    this.GetNumLevelsHelper(currNode.GetRightChild(), levels));
+            }
+
+            return levels;
         }
     }
 }
