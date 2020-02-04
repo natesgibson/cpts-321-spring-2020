@@ -176,5 +176,15 @@ namespace HW1_BSTNumberList
 
             return levels;
         }
+
+        /// <summary>
+        /// Returns the theoretical minimum number of levels the tree can have
+        /// given the number of nodes it contains.
+        /// </summary>
+        /// <returns>Theoretical minimum number of levels.</returns>
+        public int GetTheoMinLevels()
+        {
+            return 0;
+        }
     }
 }

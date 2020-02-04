@@ -7,6 +7,7 @@
 // NUnit 3 tests
 // See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
@@ -321,6 +322,58 @@ namespace HW1_BSTNumberList
         {
             IntBST tree = BuildIntBST(new int[] { 1, 1, 2, 3, 1, 2 });
             Assert.That(tree.GetNumLevels(), Is.EqualTo(3), "IntBST returned wrong number of levels");
+        }
+
+        // -------------------------------------------------------
+        //          INT_BST GET_THEO_MIN_LEVELS TESTS:
+        // -------------------------------------------------------
+
+        /// <summary>
+        /// Tests normal case for IntBST GetTheoMinLevels method.
+        /// </summary>
+        [Test]
+        public void TestBSTGetTheoMinLevelsNormal()
+        {
+            IntBST tree = BuildIntBST(new int[] { 1, 50, 2, 3, 1000, 25 });
+
+            // min number of levels where n = number of nodes is: log2(n) + 1 = log10(n)/log10(2) + 1
+            int theoMinLevels = (int)Math.Floor(Math.Log10(6) / Math.Log10(2)) + 1;
+
+            Assert.That(
+                        tree.GetTheoMinLevels(),
+                        Is.EqualTo(theoMinLevels),
+                        "IntBST returned wrong theoretical minimum number of levels");
+        }
+
+        /// <summary>
+        /// Tests empty case for IntBST GetTheoMinLevels method.
+        /// </summary>
+        [Test]
+        public void TestBSTGetTheoMinLevelsEmpty()
+        {
+            IntBST tree = BuildIntBST(new int[] { });
+
+            Assert.That(
+                        tree.GetTheoMinLevels(),
+                        Is.EqualTo(0),
+                        "IntBST returned wrong theoretical minimum number of levels");
+        }
+
+        /// <summary>
+        /// Tests duplicate case for IntBST GetTheoMinLevels method.
+        /// </summary>
+        [Test]
+        public void TestBSTGetTheoMinLevelsDuplicate()
+        {
+            IntBST tree = BuildIntBST(new int[] { 1, 50, 2, 1, 1000, 2, 1, 1 });
+
+            // min number of levels where n = number of nodes is: log2(n) + 1 = log10(n)/log10(2) + 1
+            int theoMinLevels = (int)Math.Floor(Math.Log10(4) / Math.Log10(2)) + 1;
+
+            Assert.That(
+                        tree.GetTheoMinLevels(),
+                        Is.EqualTo(theoMinLevels),
+                        "IntBST returned wrong theoretical minimum number of levels");
         }
 
         // -------------------------------------------------------

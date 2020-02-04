@@ -30,7 +30,8 @@ namespace HW1_BSTNumberList
             Console.WriteLine("Tree contents: " + tree.GetOrderedTree());
             Console.WriteLine("  Number of nodes: " + tree.GetSize());
             Console.WriteLine("  Number of levels: " + tree.GetNumLevels());
-            Console.WriteLine("  Minimum number of levels that a tree with 7 nodes could have = ");
+            Console.WriteLine("  Minimum number of levels that a tree with 7 nodes could have = " +
+                                                                                    tree.GetTheoMinLevels());
             Console.WriteLine("Done");
         }
     }
