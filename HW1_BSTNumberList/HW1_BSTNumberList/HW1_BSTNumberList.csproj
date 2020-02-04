@@ -55,6 +55,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IntBST.cs" />
     <Compile Include="IntBSTNode.cs" />
+    <Compile Include="ProcessInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

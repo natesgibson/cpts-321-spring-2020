@@ -25,7 +25,13 @@ namespace HW1_BSTNumberList
         /// <param name="args">Arguments passed in at start of program.</param>
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Enter a collection of numbers in the range [0, 100], separated by spaces:");
+            IntBST tree = ProcessInput.BuildIntBSTFromString(Console.ReadLine());
+            Console.WriteLine("Tree contents: " + tree.GetOrderedTree());
+            Console.WriteLine("  Number of nodes: " + tree.GetSize());
+            Console.WriteLine("  Number of levels: " + tree.GetNumLevels());
+            Console.WriteLine("  Minimum number of levels that a tree with 7 nodes could have = ");
+            Console.WriteLine("Done");
         }
     }
 }

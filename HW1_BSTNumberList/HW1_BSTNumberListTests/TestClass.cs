@@ -19,9 +19,72 @@ namespace HW1_BSTNumberList
     [TestFixture]
     public class TestClass
     {
-        // ----------------------------------
-        // BST NODE GET TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //      PROCESS_INPUT BUILD_INT_BST_FROM_INTS TESTS:
+        // -------------------------------------------------------
+
+        /// <summary>
+        /// Tests normal case for ProcessInput BuildIntBSTFromInts method.
+        /// </summary>
+        [Test]
+        public void TestBuildTreeFromIntsNormal()
+        {
+            int[] intArray = { 1, 2, 3, 10, 7 };
+            IntBST tree = BuildIntBST(intArray);
+            Assert.That(ProcessInput.BuildIntBSTFromInts(intArray), Is.EqualTo(tree), "Incorrect IntBST returned");
+        }
+
+        /// <summary>
+        /// Tests empty case for ProcessInput BuildIntBSTFromInts method.
+        /// </summary>
+        [Test]
+        public void TestBuildTreeFromIntsEmpty()
+        {
+            int[] intArray = { };
+            IntBST tree = BuildIntBST(intArray);
+            Assert.That(ProcessInput.BuildIntBSTFromInts(intArray), Is.EqualTo(tree), "Incorrect IntBST returned");
+        }
+
+        /// <summary>
+        /// Tests duplicate input case for ProcessInput BuildIntBSTFromInts method.
+        /// </summary>
+        [Test]
+        public void TestBuildTreeFromIntsDuplicate()
+        {
+            int[] intArray = { 1,2 ,3, 9, 8, 7, 2, 5, 1, 1, 8, 9};
+            IntBST tree = BuildIntBST(intArray);
+            Assert.That(ProcessInput.BuildIntBSTFromInts(intArray), Is.EqualTo(tree), "Incorrect IntBST returned");
+        }
+
+        // -------------------------------------------------------
+        //       PROCESS_INPUT STRING_TO_INT_ARRAY TESTS:
+        // -------------------------------------------------------
+
+        /// <summary>
+        /// Tests normal case for ProcessInput StringToIntArray method.
+        /// </summary>
+        [Test]
+        public void TestStringToIntArrayNormal()
+        {
+            string s = "1 2 3 10 7";
+            int[] intArray = { 1, 2, 3, 10, 7 };
+            Assert.That(ProcessInput.StringToIntArray(s), Is.EqualTo(intArray), "Incorrect int array returned");
+        }
+
+        /// <summary>
+        /// Tests empty case for ProcessInput StringToIntArray method.
+        /// </summary>
+        [Test]
+        public void TestStringToIntArrayEmpty()
+        {
+            string s = string.Empty;
+            int[] intArray = { };
+            Assert.That(ProcessInput.StringToIntArray(s), Is.EqualTo(intArray), "Incorrect int array returned");
+        }
+
+        // -------------------------------------------------------
+        //              INT_BST_NODE GET TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Tests normal case for IntBSTNode GetValue method.
@@ -66,9 +129,9 @@ namespace HW1_BSTNumberList
             Assert.That(node.GetRightChild(), Is.EqualTo(null), "IntBSTNode returned unexpected right child");
         }
 
-        // ----------------------------------
-        // BST NODE SET TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //              INT_BST_NODE SET TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Tests normal case for IntBSTNode SetValue method.
@@ -120,9 +183,9 @@ namespace HW1_BSTNumberList
             Assert.That(node.GetRightChild(), Is.EqualTo(null), "IntBSTNode set unexpected right child");
         }
 
-        // ----------------------------------
-        // BST ADD TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //                  INT_BST ADD TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Tests normal case for IntBST Add method. Contingent on IntBST GetOrderedTree method.
@@ -160,9 +223,9 @@ namespace HW1_BSTNumberList
             Assert.That(tree.GetOrderedTree(), Is.EqualTo("1 8 420"), "IntBST did not add duplicate item correctly");
         }
 
-        // ----------------------------------
-        // BST GETORDEREDTREE TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //           INT_BST GET_ORDERED_TREE TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Tests normal case for IntBST GetOrderedTree method.
@@ -194,9 +257,9 @@ namespace HW1_BSTNumberList
             Assert.That(tree.GetOrderedTree(), Is.EqualTo("1 2 3 5 7"), "IntBST returned wrong ordered list");
         }
 
-        // ----------------------------------
-        // BST GETSIZE TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //               INT_BST GET_SIZE TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Tests normal case for IntBST GetSize method.
@@ -228,9 +291,9 @@ namespace HW1_BSTNumberList
             Assert.That(tree.GetSize(), Is.EqualTo(4), "IntBST returned wrong size");
         }
 
-        // ----------------------------------
-        // BST GETNUMLEVELS TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //           INT_BST GET_NUM_LEVELS TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Tests normal case for IntBST GetNumLevels method.
@@ -262,9 +325,9 @@ namespace HW1_BSTNumberList
             Assert.That(tree.GetNumLevels(), Is.EqualTo(3), "IntBST returned wrong number of levels");
         }
 
-        // ----------------------------------
-        // NON-TESTS:
-        // ----------------------------------
+        // -------------------------------------------------------
+        //                      NON-TESTS:
+        // -------------------------------------------------------
 
         /// <summary>
         /// Returns a new IntBST from passed-in int array values.
