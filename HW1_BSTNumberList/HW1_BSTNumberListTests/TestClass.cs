@@ -24,36 +24,45 @@ namespace HW1_BSTNumberList
         // -------------------------------------------------------
 
         /// <summary>
-        /// Tests normal case for ProcessInput BuildIntBSTFromInts method.
+        /// Tests normal case for ProcessInput BuildIntBSTFromInts method. Contingent on GetORderedTree method.
         /// </summary>
         [Test]
         public void TestBuildTreeFromIntsNormal()
         {
             int[] intArray = { 1, 2, 3, 10, 7 };
             IntBST tree = BuildIntBST(intArray);
-            Assert.That(ProcessInput.BuildIntBSTFromInts(intArray), Is.EqualTo(tree), "Incorrect IntBST returned");
+            Assert.That(
+                        ProcessInput.BuildIntBSTFromInts(intArray).GetOrderedTree(),
+                        Is.EqualTo(tree.GetOrderedTree()),
+                        "Incorrect IntBST returned");
         }
 
         /// <summary>
-        /// Tests empty case for ProcessInput BuildIntBSTFromInts method.
+        /// Tests empty case for ProcessInput BuildIntBSTFromInts method. Contingent on GetORderedTree method.
         /// </summary>
         [Test]
         public void TestBuildTreeFromIntsEmpty()
         {
             int[] intArray = { };
             IntBST tree = BuildIntBST(intArray);
-            Assert.That(ProcessInput.BuildIntBSTFromInts(intArray), Is.EqualTo(tree), "Incorrect IntBST returned");
+            Assert.That(
+                        ProcessInput.BuildIntBSTFromInts(intArray).GetOrderedTree(),
+                        Is.EqualTo(tree.GetOrderedTree()),
+                        "Incorrect IntBST returned");
         }
 
         /// <summary>
-        /// Tests duplicate input case for ProcessInput BuildIntBSTFromInts method.
+        /// Tests duplicate input case for ProcessInput BuildIntBSTFromInts method. Contingent on GetORderedTree method.
         /// </summary>
         [Test]
         public void TestBuildTreeFromIntsDuplicate()
         {
-            int[] intArray = { 1,2 ,3, 9, 8, 7, 2, 5, 1, 1, 8, 9};
+            int[] intArray = { 1, 2, 3, 9, 8, 7, 2, 5, 1, 1, 8, 9 };
             IntBST tree = BuildIntBST(intArray);
-            Assert.That(ProcessInput.BuildIntBSTFromInts(intArray), Is.EqualTo(tree), "Incorrect IntBST returned");
+            Assert.That(
+                        ProcessInput.BuildIntBSTFromInts(intArray).GetOrderedTree(),
+                        Is.EqualTo(tree.GetOrderedTree()),
+                        "Incorrect IntBST returned");
         }
 
         // -------------------------------------------------------
@@ -68,17 +77,6 @@ namespace HW1_BSTNumberList
         {
             string s = "1 2 3 10 7";
             int[] intArray = { 1, 2, 3, 10, 7 };
-            Assert.That(ProcessInput.StringToIntArray(s), Is.EqualTo(intArray), "Incorrect int array returned");
-        }
-
-        /// <summary>
-        /// Tests empty case for ProcessInput StringToIntArray method.
-        /// </summary>
-        [Test]
-        public void TestStringToIntArrayEmpty()
-        {
-            string s = string.Empty;
-            int[] intArray = { };
             Assert.That(ProcessInput.StringToIntArray(s), Is.EqualTo(intArray), "Incorrect int array returned");
         }
 
