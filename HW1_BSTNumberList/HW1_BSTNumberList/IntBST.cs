@@ -184,7 +184,15 @@ namespace HW1_BSTNumberList
         /// <returns>Theoretical minimum number of levels.</returns>
         public int GetTheoMinLevels()
         {
-            return 0;
+            int theoMinLevels = 0;
+
+            if (this.size > 0)
+            {
+                // min number of levels where n = number of nodes is: log2(n) + 1 = log10(n)/log10(2) + 1
+                theoMinLevels = (int)Math.Floor(Math.Log10(this.size) / Math.Log10(2)) + 1;
+            }
+
+            return theoMinLevels;
         }
     }
 }
