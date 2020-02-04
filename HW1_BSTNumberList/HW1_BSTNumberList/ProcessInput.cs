@@ -24,7 +24,13 @@ namespace HW1_BSTNumberList
         /// <returns>IntBST of int items from input int array.</returns>
         public static IntBST BuildIntBSTFromInts(int[] ints)
         {
-            return new IntBST();
+            IntBST tree = new IntBST();
+            foreach (int i in ints)
+            {
+                tree.Add(i);
+            }
+
+            return tree;
         }
 
         /// <summary>
@@ -40,12 +46,14 @@ namespace HW1_BSTNumberList
 
         /// <summary>
         /// Takes in string of ints separated by spaces and returns the ints in an int array.
+        /// Input string must contain at least one int.
         /// </summary>
         /// <param name="input">String of ints separated by spaces.</param>
         /// <returns>Int array of ints from input string.</returns>
         public static int[] StringToIntArray(string input)
         {
-            return new int[] { };
+            string[] ints = input.Split(' ');
+            return Array.ConvertAll(ints, int.Parse);
         }
     }
 }
