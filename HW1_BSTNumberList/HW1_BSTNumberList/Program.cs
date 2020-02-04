@@ -27,11 +27,12 @@ namespace HW1_BSTNumberList
         {
             Console.WriteLine("Enter a collection of numbers in the range [0, 100], separated by spaces:");
             IntBST tree = ProcessInput.BuildIntBSTFromString(Console.ReadLine());
+            int numNodes = tree.GetSize();
             Console.WriteLine("Tree contents: " + tree.GetOrderedTree());
-            Console.WriteLine("  Number of nodes: " + tree.GetSize());
+            Console.WriteLine("  Number of nodes: " + numNodes);
             Console.WriteLine("  Number of levels: " + tree.GetNumLevels());
-            Console.WriteLine("  Minimum number of levels that a tree with 7 nodes could have = " +
-                                                                                    tree.GetTheoMinLevels());
+            Console.WriteLine("  Minimum number of levels that a tree with " + numNodes +
+                                                        " nodes could have = " + tree.GetTheoMinLevels());
             Console.WriteLine("Done");
         }
     }
