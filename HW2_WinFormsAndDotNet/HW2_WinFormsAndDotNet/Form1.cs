@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="Form1.cs" company="Nate Gibson">
+// Copyright (c) Nate Gibson. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,16 +14,26 @@ using System.Windows.Forms;
 
 namespace HW2_WinFormsAndDotNet
 {
+    /// <summary>
+    /// Contains event functions for Form1.
+    /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form1"/> class.
+        /// </summary>
         public Form1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Load event function for Form1.
+        /// </summary>
+        /// <param name="sender">Object which raised event.</param>
+        /// <param name="e">Contains event data.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
     }
 }
