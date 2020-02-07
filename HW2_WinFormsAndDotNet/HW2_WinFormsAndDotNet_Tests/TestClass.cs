@@ -29,7 +29,7 @@ namespace HW2_WinFormsAndDotNet_Tests
         }
 
         /// <summary>
-        /// Tests normal case for RandIntList GetList method.
+        /// Tests normal case for RandIntListGenerator GetList method.
         /// </summary>
         [Test]
         public void TestGetListNormal()
