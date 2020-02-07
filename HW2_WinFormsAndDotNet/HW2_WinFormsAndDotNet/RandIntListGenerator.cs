@@ -66,7 +66,14 @@ namespace HW2_WinFormsAndDotNet
         /// <returns>A newly generated random list of ints.</returns>
         public List<int> GetNewList()
         {
-            return new List<int>();
+            List<int> list = new List<int>();
+            Random rand = new Random();
+            for (int i = 0; i < this.size; i++)
+            {
+                list.Add(rand.Next(this.lowerBound, this.upperBound));
+            }
+
+            return list;
         }
     }
 }
