@@ -23,7 +23,13 @@ namespace HW2_WinFormsAndDotNet
         /// <returns>The number of distinct items in {list}.</returns>
         public int HashMethGetNumDistinct(List<int> list)
         {
-            return 0;
+            HashSet<int> hSet = new HashSet<int>();
+            foreach (int i in list)
+            {
+                hSet.Add(i);
+            }
+
+            return hSet.Count;
         }
 
         /// <summary>

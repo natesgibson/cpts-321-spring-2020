@@ -34,6 +34,16 @@ namespace HW2_WinFormsAndDotNet
         /// <param name="e">Contains event data.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            RandIntListGenerator listGen = new RandIntListGenerator();
+            List<int> list = listGen.GetNewList();
+            DistinctIntsAnalyzer intAnal = new DistinctIntsAnalyzer();
+            StringBuilder output = new StringBuilder();
+
+            output.Append("1. HashSet method: ");
+            output.Append(intAnal.HashMethGetNumDistinct(list).ToString());
+            output.Append(" unique numbers\n");
+
+            this.textBox1.AppendText(output.ToString());
         }
     }
 }
