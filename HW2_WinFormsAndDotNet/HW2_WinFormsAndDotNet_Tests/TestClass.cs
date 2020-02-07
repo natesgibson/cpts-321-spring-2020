@@ -82,6 +82,30 @@ namespace HW2_WinFormsAndDotNet
         }
 
         // ---------------------------------------------------------------------
+        //                  DISTINCT_INTS_ANALYZER TESTS:
+        // ---------------------------------------------------------------------
+
+        /// <summary>
+        /// Tests that all three DistinctInsAnalyzer class methods to find the number of distinct items
+        /// in an int list return the same number for the same (randomly generated) list.
+        /// </summary>
+        [Test]
+        public void TestAllMethodsReturnSame()
+        {
+            RandIntListGenerator listGen = new RandIntListGenerator();
+            List<int> list = listGen.GetNewList();
+            DistinctIntsAnalyzer a = new DistinctIntsAnalyzer();
+
+            int hashMethValue = a.HashMethGetNumDistinct(list);
+            int bigO1MethValue = a.BigO1MethGetNumDistinct(list);
+            int sortedMethValue = a.SortedMethGetNumDistinct(list);
+
+            Assert.That(hashMethValue, Is.EqualTo(bigO1MethValue), "hash method value does not equal big01 method value");
+            Assert.That(hashMethValue, Is.EqualTo(sortedMethValue), "hash method value does not equal sorted method value");
+            Assert.That(bigO1MethValue, Is.EqualTo(sortedMethValue), "bigO1 method value does not equal sorted method value");
+        }
+
+        // ---------------------------------------------------------------------
         //                          NON-TESTS:
         // ---------------------------------------------------------------------
 

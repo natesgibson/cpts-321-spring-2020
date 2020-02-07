@@ -34,7 +34,7 @@ namespace HW2_WinFormsAndDotNet
         /// <returns>The number of distinct items in {list}.</returns>
         public int BigO1MethGetNumDistinct(List<int> list)
         {
-            return 0;
+            return 1;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace HW2_WinFormsAndDotNet
         /// <returns>The number of distinct items in {list}.</returns>
         public int SortedMethGetNumDistinct(List<int> list)
         {
-            return 0;
+            return 2;
         }
     }
 }
