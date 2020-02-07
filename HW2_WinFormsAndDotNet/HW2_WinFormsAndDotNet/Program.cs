@@ -6,13 +6,16 @@ using System.Windows.Forms;
 
 namespace HW2_WinFormsAndDotNet
 {
-    static class Program
+    /// <summary>
+    /// Contains main method for WinForm application project.
+    /// </summary>
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

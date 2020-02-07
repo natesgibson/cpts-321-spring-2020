@@ -64,7 +64,7 @@ namespace HW2_WinFormsAndDotNet
         /// in the range between the lower and upper bounds (inclusive).
         /// </summary>
         /// <returns>A newly generated random list of ints.</returns>
-        public List<int> GetList()
+        public List<int> GetNewList()
         {
             return new List<int>();
         }
