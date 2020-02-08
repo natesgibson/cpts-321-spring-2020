@@ -40,7 +40,7 @@ namespace HW2_WinFormsAndDotNet
         /// <returns>The number of distinct items in {list}.</returns>
         public int BigO1MethGetNumDistinct(List<int> list)
         {
-            return 1;
+            return 2;
         }
 
         /// <summary>
@@ -51,7 +51,22 @@ namespace HW2_WinFormsAndDotNet
         /// <returns>The number of distinct items in {list}.</returns>
         public int SortedMethGetNumDistinct(List<int> list)
         {
-            return 2;
+            list.Sort();
+            int numDuplicates = 0;
+            int listSize = list.Count();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                numDuplicates++;
+
+                // Itterates i for every duplicate, in effect skipping them:
+                for (int j = i + 1; j < listSize && list[j] == list[i]; j++)
+                {
+                    i++;
+                }
+            }
+
+            return numDuplicates;
         }
     }
 }
