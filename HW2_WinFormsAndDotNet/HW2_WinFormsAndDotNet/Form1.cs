@@ -39,9 +39,23 @@ namespace HW2_WinFormsAndDotNet
             DistinctIntsAnalyzer intAnal = new DistinctIntsAnalyzer();
             StringBuilder output = new StringBuilder();
 
+            // Hash set method:
             output.Append("1. HashSet method: ");
             output.Append(intAnal.HashMethGetNumDistinct(list).ToString());
-            output.Append(" unique numbers\n");
+            output.AppendLine(" unique numbers");
+
+            // Hash set Big-O explanation:
+            output.AppendLine("    This algorithm runs in O(N) time...");
+
+            // O(1) storage method:
+            output.Append("2. O(1) storage method: ");
+            output.Append(intAnal.BigO1MethGetNumDistinct(list).ToString());
+            output.AppendLine(" unique numbers");
+
+            // Sorted method:
+            output.Append("3. Sorted method: ");
+            output.Append(intAnal.SortedMethGetNumDistinct(list).ToString());
+            output.AppendLine(" unique numbers");
 
             this.textBox1.AppendText(output.ToString());
         }
