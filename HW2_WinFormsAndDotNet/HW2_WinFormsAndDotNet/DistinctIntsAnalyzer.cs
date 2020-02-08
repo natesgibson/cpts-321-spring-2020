@@ -59,7 +59,7 @@ namespace HW2_WinFormsAndDotNet
             {
                 numDuplicates++;
 
-                // Itterates i for every duplicate, in effect skipping them:
+                // Itterates i once per duplicate, effectively skipping them:
                 for (int j = i + 1; j < listSize && list[j] == list[i]; j++)
                 {
                     i++;

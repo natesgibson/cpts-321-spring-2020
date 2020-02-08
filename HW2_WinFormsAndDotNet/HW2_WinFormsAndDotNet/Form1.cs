@@ -45,7 +45,11 @@ namespace HW2_WinFormsAndDotNet
             output.AppendLine(" unique numbers");
 
             // Hash set Big-O explanation:
-            output.AppendLine("    This algorithm runs in O(N) time...");
+            output.AppendLine("    This algorithm runs in O(N) time. I determined this in the following way:");
+            output.AppendLine("    There is an O(N) foreach loop over the entire list, out and inside of which " +
+                                                                          "there are O(1) hash set operations.");
+            output.AppendLine("    Formally, the algorithm's time complexity can be represented as: " +
+                                                                            "O(1) + O(N)*(O(1)) + O(1) = O(N).");
 
             // O(1) storage method:
             output.Append("2. O(1) storage method: ");
