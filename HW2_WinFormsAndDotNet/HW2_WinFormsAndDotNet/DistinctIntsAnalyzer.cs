@@ -35,12 +35,22 @@ namespace HW2_WinFormsAndDotNet
         /// <summary>
         /// Returns the number of distinct items in an int list
         /// using the O(1) storage complexity method to find distinct items.
+        /// This runs in O(1) time with O(1) space and does not alter the list.
         /// </summary>
         /// <param name="list">Int list.</param>
         /// <returns>The number of distinct items in {list}.</returns>
         public int BigO1MethGetNumDistinct(List<int> list)
         {
-            return 2;
+            int numDistinct = 0;
+            for (int i = this.GetMin(list); i <= this.GetMax(list); i++)
+            {
+                if (list.Contains(i))
+                {
+                    numDistinct++;
+                }
+            }
+
+            return numDistinct;
         }
 
         /// <summary>
@@ -52,12 +62,12 @@ namespace HW2_WinFormsAndDotNet
         public int SortedMethGetNumDistinct(List<int> list)
         {
             list.Sort();
-            int numDuplicates = 0;
+            int numDistinct = 0;
             int listSize = list.Count();
 
             for (int i = 0; i < list.Count; i++)
             {
-                numDuplicates++;
+                numDistinct++;
 
                 // Itterates i once per duplicate, effectively skipping them:
                 for (int j = i + 1; j < listSize && list[j] == list[i]; j++)
@@ -66,7 +76,45 @@ namespace HW2_WinFormsAndDotNet
                 }
             }
 
-            return numDuplicates;
+            return numDistinct;
+        }
+
+        /// <summary>
+        /// Returns the mininum value of an int list.
+        /// </summary>
+        /// <param name="list">Int list.</param>
+        /// <returns>The int list's minimum value.</returns>
+        private int GetMin(List<int> list)
+        {
+            int min = 0;
+            foreach (int i in list)
+            {
+                if (i < min)
+                {
+                    min = i;
+                }
+            }
+
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the maximum value of an int list.
+        /// </summary>
+        /// <param name="list">Int list.</param>
+        /// <returns>The int list's maximum value.</returns>
+        private int GetMax(List<int> list)
+        {
+            int max = 0;
+            foreach (int i in list)
+            {
+                if (i > max)
+                {
+                    max = i;
+                }
+            }
+
+            return max;
         }
     }
 }
