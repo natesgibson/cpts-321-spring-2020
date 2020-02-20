@@ -6,9 +6,15 @@ using NUnit.Framework;
 
 namespace HW3_Tests_NotepadApp
 {
+    /// <summary>
+    /// Contains tests for HW3 Notepad Application and Fibonacci reader project.
+    /// </summary>
     [TestFixture]
     public class TestClass
     {
+        /// <summary>
+        /// Test mehod template.
+        /// </summary>
         [Test]
         public void TestMethod()
         {

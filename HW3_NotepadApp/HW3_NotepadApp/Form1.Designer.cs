@@ -1,5 +1,8 @@
 ﻿namespace HW3_NotepadApp
 {
+    /// <summary>
+    /// Form1 class.
+    /// </summary>
     partial class Form1
     {
         /// <summary>
