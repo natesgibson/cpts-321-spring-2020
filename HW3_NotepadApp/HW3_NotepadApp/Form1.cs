@@ -22,5 +22,25 @@ namespace HW3_NotepadApp
         {
             this.InitializeComponent();
         }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void fIleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
