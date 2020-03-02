@@ -1,4 +1,7 @@
-﻿// NUnit 3 tests
+﻿// Name: Nate Gibson
+// WSU ID: 11697165
+
+// NUnit 3 tests
 // See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
 using System.Collections;
 using System.Collections.Generic;

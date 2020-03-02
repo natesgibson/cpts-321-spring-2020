@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Name: Nate Gibson
+// WSU ID: 11697165
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,24 +26,13 @@ namespace HW3_NotepadApp
             this.InitializeComponent();
         }
 
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Form1 load event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void fIleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
