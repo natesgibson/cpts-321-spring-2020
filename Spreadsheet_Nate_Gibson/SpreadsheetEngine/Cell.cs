@@ -84,7 +84,7 @@ namespace CptS321
             {
                 if (value != this.Text)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(value));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("Text"));
                 }
             }
         }

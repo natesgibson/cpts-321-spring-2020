@@ -30,9 +30,13 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Property changed event handler.
+        /// Cell property changed event.
         /// </summary>
-        public event PropertyChangedEventHandler CellPropertyChanged;
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event Arguments.</param>
+        public void CellPropertyChanged(object sender, EventArgs e)
+        {
+        }
 
         /// <summary>
         /// Returns the cell at the given row and column index in the spreadsheet.
@@ -77,7 +81,9 @@ namespace SpreadsheetEngine
             {
                 for (int colIndex = 0; colIndex < this.cells.GetLength(1); colIndex++)
                 {
-                    this.cells[rowIndex, colIndex] = new SpreadsheetCell(rowIndex, colIndex);
+                    SpreadsheetCell newCell = new SpreadsheetCell(rowIndex, colIndex);
+                    this.cells[rowIndex, colIndex] = newCell;
+                    newCell.PropertyChanged += this.CellPropertyChanged;
                 }
             }
         }

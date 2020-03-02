@@ -37,7 +37,7 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Gets or sets the Cell's evaluated text value.
         /// </summary>
-        protected new string Value
+        private protected new string Value
         {
             get
             {
@@ -46,6 +46,7 @@ namespace SpreadsheetEngine
 
             set
             {
+                this.value = value;
             }
         }
     }
