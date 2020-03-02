@@ -47,6 +47,10 @@
     <Compile Include="TestClass.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SpreadsheetEngine\SpreadsheetEngine.csproj">
+      <Project>{13430765-67d4-46c2-8912-577ba66daa38}</Project>
+      <Name>SpreadsheetEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Spreadsheet_Nate_Gibson\Spreadsheet_Nate_Gibson.csproj">
       <Project>{b96fa6c2-6d15-4f8a-9a0b-bd2a2eea81f2}</Project>
       <Name>Spreadsheet_Nate_Gibson</Name>
