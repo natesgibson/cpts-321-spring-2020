@@ -17,6 +17,17 @@ namespace Tests_Spreadsheet_Nate_Gibson
     public class TestClass
     {
         /// <summary>
+        /// Normal case for Spreadsheet GetCell method.
+        /// </summary>
+        [Test]
+        public void TestSpreadsheetGetCellNormal()
+        {
+            Spreadsheet s = new Spreadsheet(5, 5);
+            SpreadsheetCell newCell = new SpreadsheetCell(0, 0);
+            Assert.That(s.GetCell(4, 0).Value, Is.EqualTo(newCell.Value), "Spreadsheet returned undexpected cell at index.");
+        }
+
+        /// <summary>
         /// Nonexistent case for Spreadsheet GetCell method.
         /// </summary>
         [Test]

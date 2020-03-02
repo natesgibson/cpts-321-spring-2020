@@ -42,7 +42,12 @@ namespace SpreadsheetEngine
         /// <returns>Spreadsheet Cell.</returns>
         public Cell GetCell(int rowIndex, int colIndex)
         {
-            return new SpreadsheetCell(0, 0);
+            if (rowIndex > this.RowCount() - 1 || colIndex > this.ColumnCount() - 1)
+            {
+                return null;
+            }
+
+            return this.cells[rowIndex, colIndex];
         }
 
         /// <summary>
@@ -51,7 +56,7 @@ namespace SpreadsheetEngine
         /// <returns>Number of columns in spreadsheet.</returns>
         public int ColumnCount()
         {
-            return 0;
+            return this.cells.GetLength(1);
         }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace SpreadsheetEngine
         /// <returns>Number of rows in spreadsheet.</returns>
         public int RowCount()
         {
-            return 0;
+            return this.cells.GetLength(0);
         }
 
         /// <summary>
