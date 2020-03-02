@@ -25,5 +25,31 @@ namespace Spreadsheet_Nate_Gibson
         {
             this.InitializeComponent();
         }
+
+        /// <summary>
+        /// Form1 Load event.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event Arguments.</param>
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.AddColumns();
+            this.AddRows(50);
+        }
+
+        /// <summary>
+        /// Adds A-Z columns to the form's DataGridView.
+        /// </summary>
+        private void AddColumns()
+        {
+        }
+
+        /// <summary>
+        /// Adds numRows rows to the form's DatGridView.
+        /// </summary>
+        /// <param name="numRows">Number of rows to add.</param>
+        private void AddRows(int numRows)
+        {
+        }
     }
 }
