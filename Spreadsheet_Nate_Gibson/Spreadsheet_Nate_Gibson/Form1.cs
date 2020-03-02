@@ -33,7 +33,9 @@ namespace Spreadsheet_Nate_Gibson
         /// <param name="e">Event Arguments.</param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.dataGridView1.Columns.Clear();
             this.AddColumns();
+            this.dataGridView1.Rows.Clear();
             this.AddRows(50);
         }
 
@@ -42,6 +44,16 @@ namespace Spreadsheet_Nate_Gibson
         /// </summary>
         private void AddColumns()
         {
+            char[] alphabet =
+            {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            };
+
+            foreach (char letter in alphabet)
+            {
+                this.dataGridView1.Columns.Add(letter.ToString(), letter.ToString());
+            }
         }
 
         /// <summary>
@@ -50,6 +62,11 @@ namespace Spreadsheet_Nate_Gibson
         /// <param name="numRows">Number of rows to add.</param>
         private void AddRows(int numRows)
         {
+            for (int i = 1; i <= numRows; i++)
+            {
+                this.dataGridView1.Rows.Add();
+                this.dataGridView1.Rows[i - 1].HeaderCell.Value = i.ToString();
+            }
         }
     }
 }
