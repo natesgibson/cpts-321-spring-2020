@@ -1,0 +1,29 @@
+﻿// Name: Nate Gibson
+// WSU ID: 11697165
+
+// NUnit 3 tests
+// See documentation : https://github.com/nunit/docs/wiki/NUnit-Documentation
+using System.Collections;
+using System.Collections.Generic;
+using NUnit.Framework;
+
+namespace Tests_Spreadsheet_Nate_Gibson
+{
+    /// <summary>
+    /// Tests for spreadsheet.
+    /// </summary>
+    [TestFixture]
+    public class TestClass
+    {
+        /// <summary>
+        /// Test template.
+        /// </summary>
+        [Test]
+        public void TestMethod()
+        {
+            // TODO: Add your test code here
+            var answer = 42;
+            Assert.That(answer, Is.EqualTo(42), "Some useful error message");
+        }
+    }
+}
