@@ -5,13 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CptS231
+namespace CptS321
 {
     /// <summary>
     /// Spreadsheet cell class.
     /// </summary>
     public abstract class Cell : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Cell text.
+        /// </summary>
+        protected string text;
+
+        /// <summary>
+        /// Evaluated Cell text.
+        /// </summary>
+        protected string value;
+
         /// <summary>
         /// The Cell's row index.
         /// </summary>
@@ -63,11 +73,11 @@ namespace CptS231
         /// <summary>
         /// Gets or sets the Cell's text value.
         /// </summary>
-        protected string Text
+        public string Text
         {
             get
             {
-                return this.Text;
+                return this.text;
             }
 
             set
@@ -82,11 +92,11 @@ namespace CptS231
         /// <summary>
         /// Gets the Cell's evaluated text value.
         /// </summary>
-        protected string Value
+        public string Value
         {
             get
             {
-                return this.Value;
+                return this.value;
             }
         }
     }

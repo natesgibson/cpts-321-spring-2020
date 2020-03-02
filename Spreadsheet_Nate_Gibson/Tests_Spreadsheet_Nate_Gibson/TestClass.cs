@@ -6,8 +6,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using SpreadsheetEngine;
 
-namespace Spreadsheet_Nate_Gibson
+namespace Tests_Spreadsheet_Nate_Gibson
 {
     /// <summary>
     /// Tests for spreadsheet.
@@ -16,14 +17,53 @@ namespace Spreadsheet_Nate_Gibson
     public class TestClass
     {
         /// <summary>
-        /// Test template.
+        /// Nonexistent case for Spreadsheet GetCell method.
         /// </summary>
         [Test]
-        public void TestMethod()
+        public void TestSpreadsheetGetCellNonexistent()
         {
-            // TODO: Add your test code here
-            var answer = 42;
-            Assert.That(answer, Is.EqualTo(42), "Some useful error message");
+            Spreadsheet s = new Spreadsheet(5, 5);
+            Assert.That(s.GetCell(6, 0), Is.EqualTo(null), "Spreadsheet returned undexpected cell at index.");
+        }
+
+        /// <summary>
+        /// Normal case for Spreadsheet ColumnCount method.
+        /// </summary>
+        [Test]
+        public void TestSpreadsheetColumnCountNormal()
+        {
+            Spreadsheet s = new Spreadsheet(6, 5);
+            Assert.That(s.ColumnCount(), Is.EqualTo(5), "Spreadsheet returned unexpected column count.");
+        }
+
+        /// <summary>
+        /// Zero case for Spreadsheet ColumnCount method.
+        /// </summary>
+        [Test]
+        public void TestSpreadsheetColumnCountZero()
+        {
+            Spreadsheet s = new Spreadsheet(5, 0);
+            Assert.That(s.ColumnCount(), Is.EqualTo(0), "Spreadsheet returned unexpected column count.");
+        }
+
+        /// <summary>
+        /// Normal case for Spreadsheet RowCount method.
+        /// </summary>
+        [Test]
+        public void TestSpreadsheetRowCountNormal()
+        {
+            Spreadsheet s = new Spreadsheet(5, 6);
+            Assert.That(s.RowCount(), Is.EqualTo(5), "Spreadsheet returned unexpected row count.");
+        }
+
+        /// <summary>
+        /// Zero case for Spreadsheet RowCount method.
+        /// </summary>
+        [Test]
+        public void TestSpreadsheetRowCountZero()
+        {
+            Spreadsheet s = new Spreadsheet(0, 5);
+            Assert.That(s.RowCount(), Is.EqualTo(0), "Spreadsheet returned unexpected row count.");
         }
     }
 }
