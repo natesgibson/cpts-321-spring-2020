@@ -1,5 +1,8 @@
 ﻿namespace Spreadsheet_Nate_Gibson
 {
+    /// <summary>
+    /// Partial Form1 class managed by from designer.
+    /// </summary>
     partial class Form1
     {
         /// <summary>

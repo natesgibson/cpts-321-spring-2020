@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Tests_Spreadsheet_Nate_Gibson
+namespace Spreadsheet_Nate_Gibson
 {
     /// <summary>
     /// Tests for spreadsheet.

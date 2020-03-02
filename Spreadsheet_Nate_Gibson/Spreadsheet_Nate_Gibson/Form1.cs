@@ -23,7 +23,7 @@ namespace Spreadsheet_Nate_Gibson
         /// </summary>
         public Form1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
