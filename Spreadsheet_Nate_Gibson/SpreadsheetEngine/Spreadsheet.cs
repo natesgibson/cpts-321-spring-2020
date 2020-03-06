@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Name: Nate Gibson
+// WSU ID: 11697165
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -106,7 +109,7 @@ namespace SpreadsheetEngine
 
                 currCell.SetValue(newText);
 
-                this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Value"));
+                this.CellPropertyChanged?.Invoke(currCell, new PropertyChangedEventArgs("Value"));
             }
         }
 

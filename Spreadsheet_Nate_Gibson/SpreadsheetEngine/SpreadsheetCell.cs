@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Name: Nate Gibson
+// WSU ID: 11697165
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

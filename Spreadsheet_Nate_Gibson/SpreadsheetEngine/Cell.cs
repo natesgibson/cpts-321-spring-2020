@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Name: Nate Gibson
+// WSU ID: 11697165
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -39,6 +42,9 @@ namespace CptS321
         /// <param name="columnIndex">Cell column index.</param>
         public Cell(int rowIndex, int columnIndex)
         {
+            this.text = string.Empty;
+            this.value = string.Empty;
+
             this.rowIndex = rowIndex;
             this.columnIndex = columnIndex;
         }
@@ -62,6 +68,7 @@ namespace CptS321
             {
                 if (value != this.Text)
                 {
+                    this.text = value;
                     this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
                 }
             }
