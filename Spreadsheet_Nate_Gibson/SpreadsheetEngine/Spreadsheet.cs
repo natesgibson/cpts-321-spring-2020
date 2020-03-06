@@ -114,13 +114,25 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
+        /// REQUIREMENT: Expression starts with "=".
+        /// REQUIREMENT: For equivalence to other cell values, format is: "=[column letter][row number]"
         /// Evaluates and returns the expression.
         /// </summary>
         /// <param name="expression">Expression to be evaluated.</param>
         /// <returns>Evaluated expression.</returns>
         private string EvaluateExpression(string expression)
         {
-            return expression + " Evaluated!";      // TODO
+            char[] alphabet =
+            {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            };
+
+            char columnChar = expression.ToArray<char>()[1];
+            int rowIndex = int.Parse(expression.Split(columnChar)[1]) - 1;
+            int columnIndex = Array.IndexOf(alphabet, columnChar);  // Probably not the best way to do this.
+
+            return this.GetCell(rowIndex, columnIndex).Value;
         }
     }
 }
