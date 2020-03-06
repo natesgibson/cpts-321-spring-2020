@@ -30,6 +30,11 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
+        /// Event when any cell property is changed.
+        /// </summary>
+        public event PropertyChangedEventHandler CellPropertyChanged;
+
+        /// <summary>
         /// Returns the cell at the given row and column index in the spreadsheet.
         /// Returns null if no cell exists at [rowIndex, colIndex] index.
         /// </summary>
@@ -76,18 +81,18 @@ namespace SpreadsheetEngine
                 {
                     SpreadsheetCell newCell = new SpreadsheetCell(rowIndex, colIndex);
                     this.cells[rowIndex, colIndex] = newCell;
-                    newCell.PropertyChanged += this.CellPropertyChanged;
+                    newCell.PropertyChanged += this.UpdateOnCellTextChanged;
                 }
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Cell property changed event.
         /// If text property changed, sets value to evaluated text value.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event Arguments.</param>
-        private void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void UpdateOnCellTextChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Text"))
             {
@@ -100,6 +105,8 @@ namespace SpreadsheetEngine
                 }
 
                 currCell.SetValue(newText);
+
+                this.CellPropertyChanged?.Invoke(sender, new PropertyChangedEventArgs("Value"));
             }
         }
 
@@ -110,7 +117,7 @@ namespace SpreadsheetEngine
         /// <returns>Evaluated expression.</returns>
         private string EvaluateExpression(string expression)
         {
-            return string.Empty;
+            return expression + " Evaluated!";      // TODO
         }
     }
 }

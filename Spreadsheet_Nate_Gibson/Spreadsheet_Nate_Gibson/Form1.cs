@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SpreadsheetEngine;
 
 namespace Spreadsheet_Nate_Gibson
 {
@@ -18,6 +19,11 @@ namespace Spreadsheet_Nate_Gibson
     /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Spreadsheet object.
+        /// </summary>
+        private Spreadsheet spreadsheet;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
         /// </summary>
@@ -37,6 +43,9 @@ namespace Spreadsheet_Nate_Gibson
             this.AddAZColumns();
             this.dataGridView1.Rows.Clear();
             this.AddRows(50);
+
+            this.spreadsheet = new Spreadsheet(50, 26);
+            this.spreadsheet.CellPropertyChanged += this.UpdateCellValue;
         }
 
         /// <summary>
@@ -66,6 +75,21 @@ namespace Spreadsheet_Nate_Gibson
             {
                 this.dataGridView1.Rows.Add();
                 this.dataGridView1.Rows[i - 1].HeaderCell.Value = i.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Cell Property Changed Spreadsheet event.
+        /// If the value of the SpreadsheetCell changed, updates dataGridView1 cell value.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event Arguments.</param>
+        private void UpdateCellValue(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("Value"))
+            {
+                SpreadsheetCell currCell = sender as SpreadsheetCell;
+                this.dataGridView1.Rows[currCell.RowIndex].Cells[currCell.ColumnIndex].Value = currCell.Value;
             }
         }
     }
