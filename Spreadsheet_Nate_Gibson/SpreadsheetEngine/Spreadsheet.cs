@@ -30,23 +30,16 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Cell property changed event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event Arguments.</param>
-        public void CellPropertyChanged(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
         /// Returns the cell at the given row and column index in the spreadsheet.
+        /// Returns null if no cell exists at [rowIndex, colIndex] index.
         /// </summary>
         /// <param name="rowIndex">Spreadsheet row index.</param>
         /// <param name="colIndex">Spreadsheet Column index.</param>
         /// <returns>Spreadsheet Cell.</returns>
         public Cell GetCell(int rowIndex, int colIndex)
         {
-            if (rowIndex > this.RowCount() - 1 || colIndex > this.ColumnCount() - 1)
+            if (rowIndex > this.RowCount() - 1 || rowIndex < 0 ||
+                colIndex > this.ColumnCount() - 1 || colIndex < 0)
             {
                 return null;
             }
@@ -86,6 +79,38 @@ namespace SpreadsheetEngine
                     newCell.PropertyChanged += this.CellPropertyChanged;
                 }
             }
+        }
+
+                /// <summary>
+        /// Cell property changed event.
+        /// If text property changed, sets value to evaluated text value.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event Arguments.</param>
+        private void CellPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("Text"))
+            {
+                SpreadsheetCell currCell = sender as SpreadsheetCell;
+                string newText = currCell.Text;
+
+                if (newText.StartsWith("="))
+                {
+                    newText = this.EvaluateExpression(newText);
+                }
+
+                currCell.SetValue(newText);
+            }
+        }
+
+        /// <summary>
+        /// Evaluates and returns the expression.
+        /// </summary>
+        /// <param name="expression">Expression to be evaluated.</param>
+        /// <returns>Evaluated expression.</returns>
+        private string EvaluateExpression(string expression)
+        {
+            return string.Empty;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Spreadsheet_Nate_Gibson
         private void Form1_Load(object sender, EventArgs e)
         {
             this.dataGridView1.Columns.Clear();
-            this.AddColumns();
+            this.AddAZColumns();
             this.dataGridView1.Rows.Clear();
             this.AddRows(50);
         }
@@ -42,7 +42,7 @@ namespace Spreadsheet_Nate_Gibson
         /// <summary>
         /// Adds A-Z columns to the form's DataGridView.
         /// </summary>
-        private void AddColumns()
+        private void AddAZColumns()
         {
             char[] alphabet =
             {

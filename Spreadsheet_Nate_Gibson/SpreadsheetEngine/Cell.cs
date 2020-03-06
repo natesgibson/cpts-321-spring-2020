@@ -49,6 +49,36 @@ namespace CptS321
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Gets or sets the Cell's text value.
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return this.text;
+            }
+
+            set
+            {
+                if (value != this.Text)
+                {
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the Cell's evaluated text value.
+        /// </summary>
+        public string Value
+        {
+            get
+            {
+                return this.value;
+            }
+        }
+
+        /// <summary>
         /// Gets the Cell's row index.
         /// </summary>
         public int RowIndex
@@ -71,33 +101,12 @@ namespace CptS321
         }
 
         /// <summary>
-        /// Gets or sets the Cell's text value.
+        /// Changes string field value to newValue.
         /// </summary>
-        public string Text
+        /// <param name="newValue">New string value.</param>
+        internal void SetValue(string newValue)
         {
-            get
-            {
-                return this.text;
-            }
-
-            set
-            {
-                if (value != this.Text)
-                {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs("Text"));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the Cell's evaluated text value.
-        /// </summary>
-        public string Value
-        {
-            get
-            {
-                return this.value;
-            }
+            this.value = newValue;
         }
     }
 }
