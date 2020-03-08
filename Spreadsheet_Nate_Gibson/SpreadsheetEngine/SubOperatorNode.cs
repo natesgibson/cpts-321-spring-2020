@@ -11,5 +11,21 @@ namespace SpreadsheetEngine
     /// </summary>
     public class SubOperatorNode : OperatorNode
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SubOperatorNode"/> class.
+        /// </summary>
+        public SubOperatorNode()
+        {
+        }
+
+        /// <summary>
+        /// Evaluates and returns the difference of the evaluated values
+        /// of the node's left and right children.
+        /// </summary>
+        /// <returns>Evaluated node value.</returns>
+        public override double Evaluate()
+        {
+            return this.Left.Evaluate() - this.Right.Evaluate();
+        }
     }
 }

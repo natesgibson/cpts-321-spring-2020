@@ -11,5 +11,10 @@ namespace SpreadsheetEngine
     /// </summary>
     public abstract class ExpressionTreeNode
     {
+        /// <summary>
+        /// Evaluates and returns the expression tree node.
+        /// </summary>
+        /// <returns>Evaluated expression tree node value.</returns>
+        public abstract double Evaluate();
     }
 }

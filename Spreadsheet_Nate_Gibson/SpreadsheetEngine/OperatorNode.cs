@@ -11,5 +11,14 @@ namespace SpreadsheetEngine
     /// </summary>
     public abstract class OperatorNode : ExpressionTreeNode
     {
+        /// <summary>
+        /// Gets or sets left child expression tree node.
+        /// </summary>
+        public ExpressionTreeNode Left { get; set; }
+
+        /// <summary>
+        /// Gets or sets right child expression tree node.
+        /// </summary>
+        public ExpressionTreeNode Right { get; set; }
     }
 }
