@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests_Spreadsheet_Nate_Gibs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreadsheetEngine", "SpreadsheetEngine\SpreadsheetEngine.csproj", "{13430765-67D4-46C2-8912-577BA66DAA38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionTreeDemo", "ExpressionTreeDemo\ExpressionTreeDemo.csproj", "{7577F3EB-3267-4C4D-834F-F210F10FC2BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{13430765-67D4-46C2-8912-577BA66DAA38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13430765-67D4-46C2-8912-577BA66DAA38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13430765-67D4-46C2-8912-577BA66DAA38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7577F3EB-3267-4C4D-834F-F210F10FC2BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7577F3EB-3267-4C4D-834F-F210F10FC2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7577F3EB-3267-4C4D-834F-F210F10FC2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7577F3EB-3267-4C4D-834F-F210F10FC2BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
