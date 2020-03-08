@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpreadsheetEngine;
 
-namespace SpreadsheetEngine
+namespace CptS321
 {
     /// <summary>
     /// Class which contains and evaluates an expression tree.
@@ -12,11 +13,17 @@ namespace SpreadsheetEngine
     public class ExpressionTree
     {
         /// <summary>
+        /// Expression tree root node.
+        /// </summary>
+        private ExpressionTreeNode root;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// </summary>
         /// <param name="expression">A valid string expression.</param>
         public ExpressionTree(string expression)
         {
+            this.root = this.BuildExpressionTree(expression);
         }
 
         /// <summary>
@@ -35,6 +42,17 @@ namespace SpreadsheetEngine
         public double Evaluate()
         {
             return 0.0;
+        }
+
+        /// <summary>
+        /// Builds the expression tree from provided expression string.
+        /// Returns the root of the expression tree.
+        /// </summary>
+        /// <param name="expression">Expression string.</param>
+        /// <returns>Root of built expression tree.</returns>
+        private ExpressionTreeNode BuildExpressionTree(string expression)
+        {
+            return new ConstantNode(0);
         }
     }
 }
