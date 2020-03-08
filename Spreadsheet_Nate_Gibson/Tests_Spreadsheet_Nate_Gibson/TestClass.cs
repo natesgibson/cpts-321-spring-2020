@@ -215,5 +215,52 @@ namespace Tests_Spreadsheet_Nate_Gibson
 
             Assert.That(tree.Evaluate(), Is.EqualTo(expectedValue), "Evaluate retuned unexpected value.");
         }
+
+        //---------------------------------------------------------------
+        //              Expression Tree SetVariable Tests:
+        //---------------------------------------------------------------
+
+        /// <summary>
+        /// CONDITION: Expression Tree Evaluate method works.
+        /// Tests a normal case for expression tree set variable method.
+        /// </summary>
+        [Test]
+        public void TestSetVariableNormal()
+        {
+            string expression = "A+1";
+            ExpressionTree tree = new ExpressionTree(expression);
+            tree.SetVariable("A", 3);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(4.0), "Evaluate retuned unexpected value.");
+        }
+
+        /// <summary>
+        /// CONDITION: Expression Tree Evaluate method works.
+        /// Tests a multiple variables case for expression tree set variable method.
+        /// </summary>
+        [Test]
+        public void TestSetVariableMultiple()
+        {
+            string expression = "A+1+B";
+            ExpressionTree tree = new ExpressionTree(expression);
+            tree.SetVariable("A", 3);
+            tree.SetVariable("B", 5);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(9.0), "Evaluate retuned unexpected value.");
+        }
+
+        /// <summary>
+        /// CONDITION: Expression Tree Evaluate method works.
+        /// Tests a long variable name case for expression tree set variable method.
+        /// </summary>
+        [Test]
+        public void TestSetVariableLongName()
+        {
+            string expression = "IAmThree+1";
+            ExpressionTree tree = new ExpressionTree(expression);
+            tree.SetVariable("IAmThree", 3);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(4.0), "Evaluate retuned unexpected value.");
+        }
     }
 }
