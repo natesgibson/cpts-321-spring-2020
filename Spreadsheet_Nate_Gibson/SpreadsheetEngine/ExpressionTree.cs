@@ -28,8 +28,8 @@ namespace CptS321
         /// <param name="expression">A valid string expression.</param>
         public ExpressionTree(string expression)
         {
-            this.root = this.BuildExpressionTree(expression);
             this.variables = new Dictionary<string, double>();
+            this.root = this.BuildExpressionTree(expression);
         }
 
         /// <summary>
@@ -39,6 +39,7 @@ namespace CptS321
         /// <param name="variableValue">The value to set the variable to.</param>
         public void SetVariable(string variableName, double variableValue)
         {
+            this.variables.Add(variableName, variableValue);
         }
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace CptS321
                 else
                 {
                     string variable = currChar.ToString();
-                    for (int j = 1 + 1; j < expressionArray.Length; j++)
+                    for (int j = i + 1; j < expressionArray.Length; j++)
                     {
                         currChar = expressionArray[j];
                         if (!this.IsValidOperator(currChar))
@@ -145,7 +146,6 @@ namespace CptS321
                         }
                     }
 
-                    this.variables.Add(variable, 0.0);
                     postfixList.Add(new VariableNode(variable, ref this.variables));
                 }
             }
