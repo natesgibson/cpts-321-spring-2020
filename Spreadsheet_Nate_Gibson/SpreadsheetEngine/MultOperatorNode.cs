@@ -19,13 +19,18 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
+        /// Gets associativity of operator.
+        /// </summary>
+        public static Associative Associativity => Associative.Left;
+
+        /// <summary>
         /// Evaluates and returns the product of the evaluated values
         /// of the node's left and right children.
         /// </summary>
         /// <returns>Evaluated node value.</returns>
         public override double Evaluate()
         {
-            return this.Left.Evaluate() + this.Right.Evaluate();
+            return this.Left.Evaluate() * this.Right.Evaluate();
         }
     }
 }

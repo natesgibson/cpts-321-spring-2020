@@ -25,7 +25,7 @@ namespace SpreadsheetEngine
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
         /// </summary>
         /// <param name="name">Variable name.</param>
-        /// <param name="variables">Dictionary of known defined variables and thier values.</param>
+        /// <param name="variables">Dictionary of variables and thier values.</param>
         public VariableNode(string name, ref Dictionary<string, double> variables)
         {
             this.name = name;

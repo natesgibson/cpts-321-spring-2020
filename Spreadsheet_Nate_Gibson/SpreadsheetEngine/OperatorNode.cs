@@ -12,6 +12,22 @@ namespace SpreadsheetEngine
     public abstract class OperatorNode : ExpressionTreeNode
     {
         /// <summary>
+        /// Associativity of the operator.
+        /// </summary>
+        public enum Associative
+        {
+            /// <summary>
+            /// Rigth associativity.
+            /// </summary>
+            Right,
+
+            /// <summary>
+            /// Left associativity.
+            /// </summary>
+            Left,
+        }
+
+        /// <summary>
         /// Gets or sets left child expression tree node.
         /// </summary>
         public ExpressionTreeNode Left { get; set; }

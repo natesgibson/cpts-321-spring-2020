@@ -19,6 +19,11 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
+        /// Gets associativity of operator.
+        /// </summary>
+        public static Associative Associativity => Associative.Left;
+
+        /// <summary>
         /// Evaluates and returns the quotient of the evaluated values
         /// of the node's left and right children.
         /// </summary>
