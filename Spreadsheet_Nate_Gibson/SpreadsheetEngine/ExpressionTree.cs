@@ -42,7 +42,7 @@ namespace CptS321
         /// <param name="variableValue">The value to set the variable to.</param>
         public void SetVariable(string variableName, double variableValue)
         {
-            this.variables.Add(variableName, variableValue);
+            this.variables[variableName] = variableValue;
         }
 
         /// <summary>
@@ -141,6 +141,7 @@ namespace CptS321
                         if (!this.IsValidOperator(currChar))
                         {
                             variable += expressionArray[j].ToString();
+                            this.variables[variable] = 0.0;
                             i++;
                         }
                         else
