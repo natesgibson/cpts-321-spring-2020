@@ -21,6 +21,12 @@ namespace SpreadsheetEngine
         {
         }
 
+
+        /// <summary>
+        /// Gets precedence of operator.
+        /// </summary>
+        new public static int Precedence => 1;
+
         /// <summary>
         /// Gets associativity of operator.
         /// </summary>

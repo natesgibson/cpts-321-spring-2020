@@ -15,6 +15,11 @@ namespace SpreadsheetEngine
     public abstract class OperatorNode : ExpressionTreeNode
     {
         /// <summary>
+        /// Gets the precedence of the operator.
+        /// </summary>
+        public static int Precedence { get; }
+
+        /// <summary>
         /// Associativity of the operator.
         /// </summary>
         public enum Associative
