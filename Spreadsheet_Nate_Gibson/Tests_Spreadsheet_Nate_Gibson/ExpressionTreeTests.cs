@@ -197,5 +197,57 @@ namespace Tests_Spreadsheet_Nate_Gibson
 
             Assert.That(tree.Evaluate(), Is.EqualTo(expectedValue), "Evaluate retuned unexpected value.");
         }
+
+        /// <summary>
+        /// Tests a normal case for expression tree evaluate method with parenthesis that effect the result.
+        /// </summary>
+        [Test]
+        public void TestEvaluateParensNormal()
+        {
+            string expression = "(1+1)*2";
+            double expectedValue = (1.0 + 1.0) * 2.0;
+            ExpressionTree tree = new ExpressionTree(expression);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(expectedValue), "Evaluate retuned unexpected value.");
+        }
+
+        /// <summary>
+        /// Tests a multiple parentheses case for expression tree evaluate method with parenthesis that effect the result.
+        /// </summary>
+        [Test]
+        public void TestEvaluateParensMultiple()
+        {
+            string expression = "((1+(1))*2)";
+            double expectedValue = (1.0 + 1.0) * 2.0;
+            ExpressionTree tree = new ExpressionTree(expression);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(expectedValue), "Evaluate retuned unexpected value.");
+        }
+
+        /// <summary>
+        /// Tests a normal case for expression tree evaluate method in which associativity is relevant to the answer.
+        /// </summary>
+        [Test]
+        public void TestEvaluateAssociativeNormal()
+        {
+            string expression = "1+3*5";
+            double expectedValue = 1.0 + (3.0 * 5.0);
+            ExpressionTree tree = new ExpressionTree(expression);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(expectedValue), "Evaluate retuned unexpected value.");
+        }
+
+        /// <summary>
+        /// Tests a case for expression tree evaluate method where all recognized operators are used.
+        /// </summary>
+        [Test]
+        public void TestEvaluateAllOperators()
+        {
+            string expression = "1+7*100/10-2/1";
+            double expectedValue = 1.0 + ((7.0 * 100.0) / 10.0) - (2.0 / 1.0);
+            ExpressionTree tree = new ExpressionTree(expression);
+
+            Assert.That(tree.Evaluate(), Is.EqualTo(expectedValue), "Evaluate retuned unexpected value.");
+        }
     }
 }
