@@ -165,7 +165,6 @@ namespace CptS321
                         if (!this.IsValidOperator(currChar))
                         {
                             variable += expressionArray[j].ToString();
-                            this.variables[variable] = 0.0;
                             i++;
                         }
                         else
@@ -175,6 +174,7 @@ namespace CptS321
                     }
 
                     postfixList.Add(new VariableNode(variable, ref this.variables));
+                    this.variables[variable] = 0.0;
                 }
             }
 
