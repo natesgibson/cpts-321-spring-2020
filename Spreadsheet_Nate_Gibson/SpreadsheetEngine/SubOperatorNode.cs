@@ -21,16 +21,15 @@ namespace SpreadsheetEngine
         {
         }
 
-
         /// <summary>
         /// Gets precedence of operator.
         /// </summary>
-        new public static int Precedence => 0;
+        public override int Precedence => 0;
 
         /// <summary>
         /// Gets associativity of operator.
         /// </summary>
-        public static Associative Associativity => Associative.Left;
+        public override Associative Associativity => Associative.Left;
 
         /// <summary>
         /// Evaluates and returns the difference of the evaluated values

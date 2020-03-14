@@ -85,14 +85,14 @@ namespace CptS321
         }
 
         /// <summary>
-        /// Takes a valid string expression and returns a
-        /// postfix ordered list of expression tree nodes.
+        /// Takes a valid string expression and returns a postfix ordered list of expression tree nodes.
+        /// Uses Dijkstra's Shunting Yard algorithm.
         /// </summary>
         /// <param name="expression">Valid expression string.</param>
         /// <returns>Postfix ordered expression tree node list.</returns>
         private List<ExpressionTreeNode> GetPostfixList(string expression)
         {
-            Stack<OperatorNode> stack = new Stack<OperatorNode>();
+            Stack<char> stack = new Stack<char>();
             List<ExpressionTreeNode> postfixList = new List<ExpressionTreeNode>();
             OperatorNodeFactory opFact = new OperatorNodeFactory();
 
@@ -100,17 +100,41 @@ namespace CptS321
             for (int i = 0; i < expressionArray.Length; i++)
             {
                 char currChar = expressionArray[i];
-                if (this.IsValidOperator(currChar))
+                if (currChar.Equals('('))
                 {
-                    OperatorNode currOpNode = opFact.CreateOperatorNode(currChar);
-                    if (stack.Count <= 0)
+                    stack.Push(currChar);
+                }
+                else if (currChar.Equals(')'))
+                {
+                    while (!stack.Peek().Equals('('))
                     {
-                        stack.Push(currOpNode);
+                        OperatorNode newOpNode = opFact.CreateOperatorNode(stack.Pop());
+                        postfixList.Add(newOpNode);
+                    }
+
+                    stack.Pop();
+                }
+                else if (this.IsValidOperator(currChar))
+                {
+                    if (stack.Count <= 0 || stack.Peek().Equals('('))
+                    {
+                        stack.Push(currChar);
                     }
                     else
                     {
-                        postfixList.Add(stack.Pop());
-                        i--;
+                        OperatorNode currOpNode = opFact.CreateOperatorNode(currChar);
+                        OperatorNode nextOpNode = opFact.CreateOperatorNode(stack.Peek());
+                        if (currOpNode.Precedence > nextOpNode.Precedence ||
+                           (currOpNode.Precedence == nextOpNode.Precedence && currOpNode.Associativity == OperatorNode.Associative.Right))
+                        {
+                            stack.Push(currChar);
+                        }
+                        else
+                        {
+                            stack.Pop();
+                            postfixList.Add(nextOpNode);
+                            i--;
+                        }
                     }
                 }
                 else if (char.IsDigit(currChar))
@@ -156,7 +180,8 @@ namespace CptS321
 
             while (stack.Count > 0)
             {
-                postfixList.Add(stack.Pop());
+                OperatorNode newOpNode = opFact.CreateOperatorNode(stack.Pop());
+                postfixList.Add(newOpNode);
             }
 
             return postfixList;

@@ -15,11 +15,6 @@ namespace SpreadsheetEngine
     public abstract class OperatorNode : ExpressionTreeNode
     {
         /// <summary>
-        /// Gets the precedence of the operator.
-        /// </summary>
-        public static int Precedence { get; }
-
-        /// <summary>
         /// Associativity of the operator.
         /// </summary>
         public enum Associative
@@ -34,6 +29,16 @@ namespace SpreadsheetEngine
             /// </summary>
             Left,
         }
+
+        /// <summary>
+        /// Gets the associativity of the operator.
+        /// </summary>
+        public abstract Associative Associativity { get; }
+
+        /// <summary>
+        /// Gets the precedence of the operator.
+        /// </summary>
+        public abstract int Precedence { get; }
 
         /// <summary>
         /// Gets or sets left child expression tree node.
