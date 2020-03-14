@@ -67,8 +67,7 @@ namespace CptS321
 
             foreach (ExpressionTreeNode currNode in postfixList)
             {
-                Type nodeType = currNode.GetType();
-                if (this.IsVariableOrConstantNode(currNode))
+                if (this.IsConstantNode(currNode) || this.IsVariableNode(currNode))
                 {
                     stack.Push(currNode);
                 }
@@ -199,14 +198,25 @@ namespace CptS321
         }
 
         /// <summary>
-        /// Takes an expression tree node and returns if the node is a constant or variable node type.
+        /// Takes an expression tree node and returns if the node is a constant node type.
         /// </summary>
         /// <param name="node">Expression tree node.</param>
         /// <returns>Bool that represents is the node is a constant or variable node type.</returns>
-        private bool IsVariableOrConstantNode(ExpressionTreeNode node)
+        private bool IsConstantNode(ExpressionTreeNode node)
         {
             Type nodeType = node.GetType();
-            return nodeType.Equals(typeof(ConstantNode)) || nodeType.Equals(typeof(VariableNode));
+            return nodeType.Equals(typeof(ConstantNode));
+        }
+
+        /// <summary>
+        /// Takes an expression tree node and returns if the node is a variable node type.
+        /// </summary>
+        /// <param name="node">Expression tree node.</param>
+        /// <returns>Bool that represents is the node is a constant or variable node type.</returns>
+        private bool IsVariableNode(ExpressionTreeNode node)
+        {
+            Type nodeType = node.GetType();
+            return nodeType.Equals(typeof(VariableNode));
         }
     }
 }
