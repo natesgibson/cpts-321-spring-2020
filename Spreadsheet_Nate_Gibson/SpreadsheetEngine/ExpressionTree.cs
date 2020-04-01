@@ -96,87 +96,118 @@ namespace CptS321
             OperatorNodeFactory opFact = new OperatorNodeFactory();
 
             char[] expressionArray = expression.ToArray<char>();
+
+            // loops over each char in expression string
             for (int i = 0; i < expressionArray.Length; i++)
             {
                 char currChar = expressionArray[i];
+
+                // if the current char is a left parenthesis, push to stack
                 if (currChar.Equals('('))
                 {
                     stack.Push(currChar);
                 }
+
+                // if the current char is a right parenthesis
                 else if (currChar.Equals(')'))
                 {
+                    // while the top of the stack is not a left parenthesis, pop and add to list
                     while (!stack.Peek().Equals('('))
                     {
                         OperatorNode newOpNode = opFact.CreateOperatorNode(stack.Pop());
                         postfixList.Add(newOpNode);
                     }
 
-                    stack.Pop();
+                    stack.Pop(); // pop the left parenthesis from the top of the stack
                 }
+
+                // If the current char is a valid operator
                 else if (this.IsValidOperator(currChar))
                 {
+                    // if the stack is empty or the next char is a left parenthesis
                     if (stack.Count <= 0 || stack.Peek().Equals('('))
                     {
                         stack.Push(currChar);
                     }
+
+                    // otherwise the next char on the stack is an operator
                     else
                     {
                         OperatorNode currOpNode = opFact.CreateOperatorNode(currChar);
                         OperatorNode nextOpNode = opFact.CreateOperatorNode(stack.Peek());
+
+                        // if curr operator has > precedence than the next operator, or equal precedence and right associativity
                         if (currOpNode.Precedence > nextOpNode.Precedence ||
                            (currOpNode.Precedence == nextOpNode.Precedence && currOpNode.Associativity == OperatorNode.Associative.Right))
                         {
-                            stack.Push(currChar);
+                            stack.Push(currChar); // push the current operator on the stack
                         }
+
+                        // if curr operator has < precedence than the next operator, or equal precedence and left associativity
                         else
                         {
+                            // add the next operator to the list
                             stack.Pop();
                             postfixList.Add(nextOpNode);
                             i--;
                         }
                     }
                 }
+
+                // if the current char is a digit (0-9)
                 else if (char.IsDigit(currChar))
                 {
                     string constantString = currChar.ToString();
                     for (int j = i + 1; j < expressionArray.Length; j++)
                     {
                         currChar = expressionArray[j];
+
+                        // if the next char is a digit, append to constant string
                         if (char.IsDigit(currChar))
                         {
                             constantString += currChar.ToString();
                             i++;
                         }
+
+                        // otherwise the next char is not part of this number
                         else
                         {
                             break;
                         }
                     }
 
-                    postfixList.Add(new ConstantNode(double.Parse(constantString)));
+                    postfixList.Add(new ConstantNode(double.Parse(constantString))); // add the complete number to the list
                 }
+
+                // if the current char is a variable
                 else
                 {
                     string variable = currChar.ToString();
                     for (int j = i + 1; j < expressionArray.Length; j++)
                     {
                         currChar = expressionArray[j];
+
+                        // if the next char is not an operator
                         if (!this.IsValidOperator(currChar))
                         {
                             variable += expressionArray[j].ToString();
                             i++;
                         }
+
+                        // otherwise the next char is not part of this variable
                         else
                         {
                             break;
                         }
                     }
 
+                    // add the complete variable to the list and initialize it in the dictionary as 0
                     postfixList.Add(new VariableNode(variable, ref this.variables));
                     this.variables[variable] = 0.0;
                 }
             }
 
+            // pop and add the rest of the stack to the list
             while (stack.Count > 0)
             {
                 OperatorNode newOpNode = opFact.CreateOperatorNode(stack.Pop());
