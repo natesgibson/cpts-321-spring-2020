@@ -41,6 +41,57 @@ namespace Spreadsheet_Nate_Gibson
         private void Form1_Load(object sender, EventArgs e)
         {
             this.ResetDataGrid();
+            this.InitializeDGCells();
+
+            this.DataGridView1.CellBeginEdit += this.DataGridView1_CellBeginEdit;
+            this.DataGridView1.CellEndEdit += this.DataGridView1_CellEndEdit;
+        }
+
+        /// <summary>
+        /// When a dataGridView1 cell begins to be edited, set its value to equal
+        /// its corresponding spreadsheet cell's text value.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
+
+            dgCell.Value = ssCell.Text;
+        }
+
+        /// <summary>
+        /// When a dataGridView1 cell ends being edited,
+        /// set the ss cell's text value to equal the cc cell's value,
+        /// and reset the dg cell to the ss cell's value.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
+
+            ssCell.Text = dgCell.Value.ToString();
+            dgCell.Value = ssCell.Value;
+        }
+
+        /// <summary>
+        /// Initializes each DG cell's value to equal its spreadsheet cell counterpart's value.
+        /// </summary>
+        private void InitializeDGCells()
+        {
+            for (int i = 0; i < this.DataGridView1.Rows.Count; i++)
+            {
+                for (int j = 0; j < this.DataGridView1.Columns.Count; j++)
+                {
+                    DataGridViewCell dgCell = this.DataGridView1.Rows[i].Cells[j];
+                    SpreadsheetCell ssCell = this.spreadsheet.GetCell(i, j);
+
+                    dgCell.Value = ssCell.Value;
+                }
+            }
         }
 
         /// <summary>
@@ -48,9 +99,9 @@ namespace Spreadsheet_Nate_Gibson
         /// </summary>
         private void ResetDataGrid()
         {
-            this.dataGridView1.Columns.Clear();
+            this.DataGridView1.Columns.Clear();
             this.AddAZColumns();
-            this.dataGridView1.Rows.Clear();
+            this.DataGridView1.Rows.Clear();
             this.AddRows(50);
 
             this.spreadsheet = new Spreadsheet(50, 26);
@@ -70,7 +121,7 @@ namespace Spreadsheet_Nate_Gibson
 
             foreach (char letter in alphabet)
             {
-                this.dataGridView1.Columns.Add(letter.ToString(), letter.ToString());
+                this.DataGridView1.Columns.Add(letter.ToString(), letter.ToString());
             }
         }
 
@@ -82,8 +133,8 @@ namespace Spreadsheet_Nate_Gibson
         {
             for (int i = 1; i <= numRows; i++)
             {
-                this.dataGridView1.Rows.Add();
-                this.dataGridView1.Rows[i - 1].HeaderCell.Value = i.ToString();
+                this.DataGridView1.Rows.Add();
+                this.DataGridView1.Rows[i - 1].HeaderCell.Value = i.ToString();
             }
         }
 
@@ -97,8 +148,10 @@ namespace Spreadsheet_Nate_Gibson
         {
             if (e.PropertyName.Equals("Value"))
             {
-                SpreadsheetCell currCell = sender as SpreadsheetCell;
-                this.dataGridView1.Rows[currCell.RowIndex].Cells[currCell.ColumnIndex].Value = currCell.Value;
+                SpreadsheetCell ssCell = sender as SpreadsheetCell;
+                DataGridViewCell dgCell = this.DataGridView1.Rows[ssCell.RowIndex].Cells[ssCell.ColumnIndex];
+
+                dgCell.Value = ssCell.Value;
             }
         }
 
