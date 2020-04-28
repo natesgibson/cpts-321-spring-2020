@@ -42,18 +42,17 @@ namespace SpreadsheetEngine
 
         /// <summary>
         /// Evaluates and returns the variable value.
-        /// Returns 0 by default if variable is not found.
+        /// Throws undefinedvariableexception if variable is not defined.
         /// </summary>
         /// <returns>Node's variable value.</returns>
         public override double Evaluate()
         {
-            double value = 0.0;
-            if (this.variables.ContainsKey(this.name))
+            if (!this.variables.ContainsKey(this.name))
             {
-                value = this.variables[this.name];
+                throw new UndefinedVariableException("The varible being evaluated is not defined.");
             }
 
-            return value;
+            return this.variables[this.name];
         }
     }
 }

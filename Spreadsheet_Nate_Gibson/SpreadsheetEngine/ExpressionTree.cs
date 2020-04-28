@@ -201,9 +201,8 @@ namespace CptS321
                         }
                     }
 
-                    // add the complete variable to the list and initialize it in the dictionary as 0
+                    // add the complete variable to the list
                     postfixList.Add(new VariableNode(variable, ref this.variables));
-                    this.variables[variable] = 0.0;
                 }
             }
 
