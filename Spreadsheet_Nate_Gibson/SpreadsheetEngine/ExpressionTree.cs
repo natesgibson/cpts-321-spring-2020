@@ -26,12 +26,18 @@ namespace CptS321
         private Dictionary<string, double> variables;
 
         /// <summary>
+        /// Contains a list of all variable names (keys) in the variables dictionary.
+        /// </summary>
+        private List<string> variableNames;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// </summary>
         /// <param name="expression">A valid string expression.</param>
         public ExpressionTree(string expression)
         {
             this.variables = new Dictionary<string, double>();
+            this.variableNames = new List<string>();
             this.root = this.BuildExpressionTree(expression);
         }
 
@@ -43,6 +49,15 @@ namespace CptS321
         public void SetVariable(string variableName, double variableValue)
         {
             this.variables[variableName] = variableValue;
+        }
+
+        /// <summary>
+        /// Returns the list of variable names (keys) in variables dictionary.
+        /// </summary>
+        /// <returns>List of variable names.</returns>
+        public List<string> GetVariableNames()
+        {
+            return this.variableNames;
         }
 
         /// <summary>
@@ -203,6 +218,12 @@ namespace CptS321
 
                     // add the complete variable to the list
                     postfixList.Add(new VariableNode(variable, ref this.variables));
+
+                    // Add the name to variabelNames list if it is not already in it.
+                    if (!this.variableNames.Contains(variable))
+                    {
+                        this.variableNames.Add(variable);
+                    }
                 }
             }
 

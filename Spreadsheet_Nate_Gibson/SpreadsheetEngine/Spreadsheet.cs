@@ -115,7 +115,6 @@ namespace SpreadsheetEngine
 
         /// <summary>
         /// REQUIREMENT: Expression starts with "=".
-        /// REQUIREMENT: For equivalence to other cell values, format is: "=[column letter][row number]"
         /// Evaluates and returns the expression.
         /// </summary>
         /// <param name="expression">Expression to be evaluated.</param>
@@ -128,11 +127,54 @@ namespace SpreadsheetEngine
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             };
 
-            char columnChar = expression.ToArray<char>()[1];
-            int rowIndex = int.Parse(expression.Split(columnChar)[1]) - 1;
-            int columnIndex = Array.IndexOf(alphabet, columnChar);  // Probably not the best way to do this.
+            // char columnChar = expression.ToArray<char>()[1];
+            // int rowIndex = int.Parse(expression.Split(columnChar)[1]) - 1;
+            // int columnIndex = Array.IndexOf(alphabet, columnChar);  // Probably not the best way to do this.
 
-            return this.GetCell(rowIndex, columnIndex).Value;
+            // removes the first character (which should be '=') and whitespace.
+            expression = expression.Substring(1).Replace(" ", string.Empty);
+
+            ExpressionTree et = new ExpressionTree(expression);
+
+            this.DefineCellVariables(et);
+
+            return et.Evaluate().ToString();
+        }
+
+        /// <summary>
+        /// REQUIREMENT: Variable names must be formatted as: "[column letter][row number]"
+        /// Defines expression tree variables that reference cells.
+        /// </summary>
+        /// <param name="et">Expression tree.</param>
+        private void DefineCellVariables(ExpressionTree et)
+        {
+            char[] alphabet =
+            {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            };
+
+            List<string> variableNames = et.GetVariableNames();
+            foreach (string name in variableNames)
+            {
+                char colChar = name.ToCharArray()[0];
+                int rowIndex = int.Parse(name.Split(colChar)[1]) - 1;
+                int colIndex = Array.IndexOf(alphabet, colChar);
+
+                SpreadsheetCell cell = this.GetCell(rowIndex, colIndex);
+
+                // If the cell's value string cannot be parsed as a double, defaults to 0.
+                double value = 0.0;
+                try
+                {
+                    value = double.Parse(cell.Value);
+                }
+                catch (FormatException)
+                {
+                }
+
+                et.SetVariable(name, value);
+            }
         }
     }
 }

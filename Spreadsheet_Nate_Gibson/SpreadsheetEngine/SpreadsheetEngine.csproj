@@ -58,6 +58,7 @@
     <Compile Include="Spreadsheet.cs" />
     <Compile Include="SpreadsheetCell.cs" />
     <Compile Include="SubOperatorNode.cs" />
+    <Compile Include="UndefinedVariableException.cs" />
     <Compile Include="VariableNode.cs" />
   </ItemGroup>
   <ItemGroup>
