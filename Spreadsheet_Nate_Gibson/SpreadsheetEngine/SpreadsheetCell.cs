@@ -24,5 +24,34 @@ namespace SpreadsheetEngine
         public SpreadsheetCell(int rowIndex, int colIndex) : base(rowIndex, colIndex)
         {
         }
+
+        /// <summary>
+        /// Event when a dependent cell's value property changed.
+        /// </summary>
+        public event EventHandler DependentCellValueChanged;
+
+        /// <summary>
+        /// Subscribes this cell to the propertychanged event of another cell.
+        /// Used when this cell's expression is dependent on the other cell's value.
+        /// </summary>
+        /// <param name="cell">Dependee cell.</param>
+        public void SubToCellChange(Cell cell)
+        {
+            cell.PropertyChanged += this.UpdateOnDependentCellValueChange;
+        }
+
+        /// <summary>
+        /// Updates the value of this cell if the value of another cell has changed.
+        /// </summary>
+        /// <param name="sender">Sender object (shoudld be dependee cell).</param>
+        /// <param name="e">Event arguments.</param>
+        private void UpdateOnDependentCellValueChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("Value"))
+            {
+                // this.Text += " ";
+                this.DependentCellValueChanged?.Invoke(this, new EventArgs());
+            }
+        }
     }
 }

@@ -9,3 +9,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "I want property member variables to be protected.")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1128:Put constructor initializers on their own line", Justification = "That looks bad.")]
 [assembly: SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1502:Element should not be on a single line", Justification = "Some functions do not require multiple lines.")]
+[assembly: SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "This statement makes sense on a single line.", Scope = "member", Target = "~M:SpreadsheetEngine.Spreadsheet.HandleCellVariables(CptS321.ExpressionTree,SpreadsheetEngine.SpreadsheetCell)")]

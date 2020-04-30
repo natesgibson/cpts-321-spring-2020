@@ -114,6 +114,7 @@ namespace CptS321
         internal void SetValue(string newValue)
         {
             this.value = newValue;
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
         }
     }
 }

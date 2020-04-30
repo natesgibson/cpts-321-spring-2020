@@ -85,13 +85,14 @@ namespace SpreadsheetEngine
                     SpreadsheetCell newCell = new SpreadsheetCell(rowIndex, colIndex);
                     this.cells[rowIndex, colIndex] = newCell;
                     newCell.PropertyChanged += this.UpdateOnCellTextChanged;
+                    newCell.DependentCellValueChanged += this.UpdateOnDependentCellValueChange;
                 }
             }
         }
 
         /// <summary>
         /// Cell property changed event.
-        /// If text property changed, sets value to evaluated text value.
+        /// If text property changed, update its value.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event Arguments.</param>
@@ -99,82 +100,105 @@ namespace SpreadsheetEngine
         {
             if (e.PropertyName.Equals("Text"))
             {
-                SpreadsheetCell currCell = sender as SpreadsheetCell;
-                string newText = currCell.Text;
-
-                if (newText.StartsWith("="))
-                {
-                    newText = this.EvaluateExpression(newText);
-                }
-
-                currCell.SetValue(newText);
-
-                this.CellPropertyChanged?.Invoke(currCell, new PropertyChangedEventArgs("Value"));
+                this.UpdateCellValue(sender as SpreadsheetCell);
             }
         }
 
         /// <summary>
-        /// REQUIREMENT: Expression starts with "=".
-        /// Evaluates and returns the expression.
+        /// Cell dependent cell value changed event.
+        /// If the value of its dependent cell changed, update the sender cell's value.
         /// </summary>
-        /// <param name="expression">Expression to be evaluated.</param>
-        /// <returns>Evaluated expression.</returns>
-        private string EvaluateExpression(string expression)
+        /// <param name="sender">Dependent cell.</param>
+        /// <param name="e">Event arguments.</param>
+        private void UpdateOnDependentCellValueChange(object sender, EventArgs e)
         {
-            char[] alphabet =
+            this.UpdateCellValue(sender as SpreadsheetCell);
+        }
+
+        /// <summary>
+        /// Updates (and possibly evaluates) a cell's value.
+        /// </summary>
+        /// <param name="cell">Spreadsheet cell.</param>
+        private void UpdateCellValue(SpreadsheetCell cell)
+        {
+            string newValue = cell.Text;
+
+            if (newValue.StartsWith("="))
             {
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            };
+                newValue = this.EvaluateCellExpression(cell).ToString();
+            }
 
-            // char columnChar = expression.ToArray<char>()[1];
-            // int rowIndex = int.Parse(expression.Split(columnChar)[1]) - 1;
-            // int columnIndex = Array.IndexOf(alphabet, columnChar);  // Probably not the best way to do this.
+            cell.SetValue(newValue);
 
+            this.CellPropertyChanged?.Invoke(cell, new PropertyChangedEventArgs("Value"));
+        }
+
+        /// <summary>
+        /// REQUIREMENT: cell expression text starts with "=".
+        /// Evaluates cell's text as an expression and returns its value.
+        /// </summary>
+        /// <param name="cell">cell who's text is to be evaluated.</param>
+        /// <returns>Evaluated expression.</returns>
+        private double EvaluateCellExpression(SpreadsheetCell cell)
+        {
             // removes the first character (which should be '=') and whitespace.
-            expression = expression.Substring(1).Replace(" ", string.Empty);
+            string expression = cell.Text.Substring(1).Replace(" ", string.Empty);
 
             ExpressionTree et = new ExpressionTree(expression);
 
-            this.DefineCellVariables(et);
+            this.HandleCellVariables(et, cell);
 
-            return et.Evaluate().ToString();
+            return et.Evaluate();
         }
 
         /// <summary>
         /// REQUIREMENT: Variable names must be formatted as: "[column letter][row number]"
-        /// Defines expression tree variables that reference cells.
+        /// Defines cell variables in the expression tree and subscribes the
+        /// current cell to each variable cell's property changed event.
         /// </summary>
         /// <param name="et">Expression tree.</param>
-        private void DefineCellVariables(ExpressionTree et)
+        /// <param name="currCell">Current spreadsheet cell.</param>
+        private void HandleCellVariables(ExpressionTree et, SpreadsheetCell currCell)
         {
-            char[] alphabet =
-            {
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            };
-
             List<string> variableNames = et.GetVariableNames();
             foreach (string name in variableNames)
             {
-                char colChar = name.ToCharArray()[0];
-                int rowIndex = int.Parse(name.Split(colChar)[1]) - 1;
-                int colIndex = Array.IndexOf(alphabet, colChar);
-
-                SpreadsheetCell cell = this.GetCell(rowIndex, colIndex);
+                SpreadsheetCell varCell = this.GetVariableCell(name);
 
                 // If the cell's value string cannot be parsed as a double, defaults to 0.
                 double value = 0.0;
                 try
                 {
-                    value = double.Parse(cell.Value);
+                    value = double.Parse(varCell.Value);
                 }
-                catch (FormatException)
-                {
-                }
+                catch (FormatException) { }
 
                 et.SetVariable(name, value);
+
+                currCell.SubToCellChange(varCell);
             }
+        }
+
+        /// <summary>
+        /// REQUIREMENT: Variable names must be formatted as: "[column letter][row number]"
+        /// Takes a string which represents a SpreadsheetCell and
+        /// returns the appropriate SpreadsheetCell from the spreadsheet.
+        /// </summary>
+        /// <param name="variableName">String which represents a cell.</param>
+        /// <returns>Spreadsheet cell represented by the variable string.</returns>
+        private SpreadsheetCell GetVariableCell(string variableName)
+        {
+            char[] alphabet =
+            {
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            };
+
+            char colChar = variableName.ToCharArray()[0];
+            int rowIndex = int.Parse(variableName.Split(colChar)[1]) - 1;
+            int colIndex = Array.IndexOf(alphabet, colChar);
+
+            return this.GetCell(rowIndex, colIndex);
         }
     }
 }
