@@ -22,6 +22,11 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
+        /// Gets the operator.
+        /// </summary>
+        public override char Operator => '-';
+
+        /// <summary>
         /// Gets precedence of operator.
         /// </summary>
         public override int Precedence => 0;
