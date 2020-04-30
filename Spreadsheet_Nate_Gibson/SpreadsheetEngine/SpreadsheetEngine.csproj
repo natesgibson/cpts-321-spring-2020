@@ -51,6 +51,7 @@
     <Compile Include="ExpressionTree.cs" />
     <Compile Include="ExpressionTreeNode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="InvalidCellNameException.cs" />
     <Compile Include="MultOperatorNode.cs" />
     <Compile Include="OperatorNode.cs" />
     <Compile Include="OperatorNodeFactory.cs" />

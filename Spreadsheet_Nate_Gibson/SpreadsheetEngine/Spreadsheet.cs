@@ -181,6 +181,7 @@ namespace SpreadsheetEngine
 
         /// <summary>
         /// REQUIREMENT: Variable names must be formatted as: "[column letter][row number]"
+        /// Throws exception if format is incorrect.
         /// Takes a string which represents a SpreadsheetCell and
         /// returns the appropriate SpreadsheetCell from the spreadsheet.
         /// </summary>
@@ -194,9 +195,19 @@ namespace SpreadsheetEngine
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             };
 
-            char colChar = variableName.ToCharArray()[0];
-            int rowIndex = int.Parse(variableName.Split(colChar)[1]) - 1;
-            int colIndex = Array.IndexOf(alphabet, colChar);
+            int rowIndex = -1;
+            int colIndex = -1;
+
+            try
+            {
+                char colChar = variableName.ToCharArray()[0];
+                rowIndex = int.Parse(variableName.Split(colChar)[1]) - 1;
+                colIndex = Array.IndexOf(alphabet, colChar);
+            }
+            catch (FormatException)
+            {
+                throw new InvalidCellNameException("The format of the cell name is invalid.");
+            }
 
             return this.GetCell(rowIndex, colIndex);
         }
