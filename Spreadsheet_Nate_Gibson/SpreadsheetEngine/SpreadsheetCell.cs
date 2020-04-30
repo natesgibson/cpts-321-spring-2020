@@ -49,7 +49,6 @@ namespace SpreadsheetEngine
         {
             if (e.PropertyName.Equals("Value"))
             {
-                // this.Text += " ";
                 this.DependentCellValueChanged?.Invoke(this, new EventArgs());
             }
         }
