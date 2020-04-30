@@ -31,11 +31,6 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Gets the operator.
-        /// </summary>
-        public abstract char Operator { get; }
-
-        /// <summary>
         /// Gets the associativity of the operator.
         /// </summary>
         public abstract Associative Associativity { get; }
