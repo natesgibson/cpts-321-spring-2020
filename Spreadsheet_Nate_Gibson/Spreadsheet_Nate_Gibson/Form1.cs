@@ -26,6 +26,11 @@ namespace Spreadsheet_Nate_Gibson
         private Spreadsheet spreadsheet;
 
         /// <summary>
+        /// Color dialog menu.
+        /// </summary>
+        private ColorDialog colorDialog;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Form1"/> class.
         /// </summary>
         public Form1()
@@ -45,6 +50,8 @@ namespace Spreadsheet_Nate_Gibson
 
             this.DataGridView1.CellBeginEdit += this.DataGridView1_CellBeginEdit;
             this.DataGridView1.CellEndEdit += this.DataGridView1_CellEndEdit;
+
+            this.colorDialog = new ColorDialog();
         }
 
         /// <summary>
@@ -105,7 +112,7 @@ namespace Spreadsheet_Nate_Gibson
             this.AddRows(50);
 
             this.spreadsheet = new Spreadsheet(50, 26);
-            this.spreadsheet.CellPropertyChanged += this.UpdateCellValue;
+            this.spreadsheet.CellPropertyChanged += this.UpdateCellProperty;
         }
 
         /// <summary>
@@ -141,17 +148,42 @@ namespace Spreadsheet_Nate_Gibson
         /// <summary>
         /// Cell Property Changed Spreadsheet event.
         /// If the value of the SpreadsheetCell changed, updates dataGridView1 cell value.
+        /// If the bgColor of the SpreadsheetCell changed, updates its background color.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event Arguments.</param>
-        private void UpdateCellValue(object sender, PropertyChangedEventArgs e)
+        private void UpdateCellProperty(object sender, PropertyChangedEventArgs e)
         {
+            SpreadsheetCell ssCell = sender as SpreadsheetCell;
+            DataGridViewCell dgCell = this.DataGridView1.Rows[ssCell.RowIndex].Cells[ssCell.ColumnIndex];
+
             if (e.PropertyName.Equals("Value"))
             {
-                SpreadsheetCell ssCell = sender as SpreadsheetCell;
-                DataGridViewCell dgCell = this.DataGridView1.Rows[ssCell.RowIndex].Cells[ssCell.ColumnIndex];
-
                 dgCell.Value = ssCell.Value;
+            }
+            else if (e.PropertyName.Equals("BGColor"))
+            {
+                Color newColor = Color.FromArgb((int)ssCell.BGColor);
+                dgCell.Style.BackColor = newColor;
+            }
+        }
+
+        /// <summary>
+        /// Updates the background color of currently selected cells in the spreadsheet.
+        /// Users select a color with a color dialog window.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                foreach (DataGridViewCell dgCell in this.DataGridView1.SelectedCells)
+                {
+                    SpreadsheetCell ssCell = this.spreadsheet.GetCell(dgCell.RowIndex, dgCell.ColumnIndex);
+                    uint newColor = (uint)this.colorDialog.Color.ToArgb();
+                    ssCell.BGColor = newColor;
+                }
             }
         }
 

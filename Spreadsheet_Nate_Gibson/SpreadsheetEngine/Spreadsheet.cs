@@ -84,7 +84,7 @@ namespace SpreadsheetEngine
                 {
                     SpreadsheetCell newCell = new SpreadsheetCell(rowIndex, colIndex);
                     this.cells[rowIndex, colIndex] = newCell;
-                    newCell.PropertyChanged += this.UpdateOnCellTextChanged;
+                    newCell.PropertyChanged += this.UpdateOnCellPropertyChanged;
                     newCell.DependentCellValueChanged += this.UpdateOnDependentCellValueChange;
                 }
             }
@@ -93,14 +93,19 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Cell property changed event.
         /// If text property changed, update its value.
+        /// If bgColor property changed, update its background color.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event Arguments.</param>
-        private void UpdateOnCellTextChanged(object sender, PropertyChangedEventArgs e)
+        private void UpdateOnCellPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Text"))
             {
                 this.UpdateCellValue(sender as SpreadsheetCell);
+            }
+            else if (e.PropertyName.Equals("BGColor"))
+            {
+                this.CellPropertyChanged?.Invoke(sender as SpreadsheetCell, new PropertyChangedEventArgs("BGColor"));
             }
         }
 
