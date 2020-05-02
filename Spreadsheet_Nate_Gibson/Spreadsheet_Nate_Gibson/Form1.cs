@@ -52,6 +52,8 @@ namespace Spreadsheet_Nate_Gibson
             this.DataGridView1.CellEndEdit += this.DataGridView1_CellEndEdit;
 
             this.colorDialog = new ColorDialog();
+
+            this.UpdateUndoRedoButtons();
         }
 
         /// <summary>
@@ -80,7 +82,12 @@ namespace Spreadsheet_Nate_Gibson
             DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
             SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
 
-            ssCell.Text = dgCell.Value.ToString();
+            string newText = dgCell.Value.ToString();
+            CellTextCommand cmd = new CellTextCommand(ssCell, newText);
+            this.spreadsheet.AddUndo(cmd);
+
+            this.UpdateUndoRedoButtons();
+
             dgCell.Value = ssCell.Value;
         }
 
@@ -171,6 +178,7 @@ namespace Spreadsheet_Nate_Gibson
         /// <summary>
         /// Updates the background color of currently selected cells in the spreadsheet.
         /// Users select a color with a color dialog window.
+        /// Updates the undo/redo menu buttons.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
@@ -178,12 +186,72 @@ namespace Spreadsheet_Nate_Gibson
         {
             if (this.colorDialog.ShowDialog() == DialogResult.OK)
             {
+                uint newColor = (uint)this.colorDialog.Color.ToArgb();
+                List<SpreadsheetCell> changingCells = new List<SpreadsheetCell>();
+
                 foreach (DataGridViewCell dgCell in this.DataGridView1.SelectedCells)
                 {
                     SpreadsheetCell ssCell = this.spreadsheet.GetCell(dgCell.RowIndex, dgCell.ColumnIndex);
-                    uint newColor = (uint)this.colorDialog.Color.ToArgb();
-                    ssCell.BGColor = newColor;
+                    changingCells.Add(ssCell);
                 }
+
+                BGColorCommand cmd = new BGColorCommand(changingCells, newColor);
+                this.spreadsheet.AddUndo(cmd);
+
+                this.UpdateUndoRedoButtons();
+            }
+        }
+
+        /// <summary>
+        /// Executes spreadsheet undo command.
+        /// Updates undo/redo buttons.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.spreadsheet.ExecuteUndo();
+            this.UpdateUndoRedoButtons();
+        }
+
+        /// <summary>
+        /// Executes spreadsheet redo command.
+        /// Updates undo/redo buttons.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.spreadsheet.ExecuteRedo();
+            this.UpdateUndoRedoButtons();
+        }
+
+        /// <summary>
+        /// Updated the text and enabled properties of the undo redo buttons
+        /// based on the spreadsheet.
+        /// </summary>
+        private void UpdateUndoRedoButtons()
+        {
+            if (this.spreadsheet.UndosIsEmpty())
+            {
+                this.UndoToolStripMenuItem.Enabled = false;
+                this.UndoToolStripMenuItem.Text = "Undo";
+            }
+            else
+            {
+                this.UndoToolStripMenuItem.Enabled = true;
+                this.UndoToolStripMenuItem.Text = "Undo " + this.spreadsheet.GetUndoText();
+            }
+
+            if (this.spreadsheet.RedosIsEmpty())
+            {
+                this.RedoToolStripMenuItem.Enabled = false;
+                this.RedoToolStripMenuItem.Text = "Redo";
+            }
+            else
+            {
+                this.RedoToolStripMenuItem.Enabled = true;
+                this.RedoToolStripMenuItem.Text = "Redo " + this.spreadsheet.GetRedoText();
             }
         }
 

@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="AddOperatorNode.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="BGColorCommand.cs" />
+    <Compile Include="CellTextCommand.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="ConstantNode.cs" />
     <Compile Include="DivOperatorNode.cs" />
     <Compile Include="ExpressionTree.cs" />

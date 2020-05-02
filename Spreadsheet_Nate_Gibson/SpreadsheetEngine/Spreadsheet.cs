@@ -22,6 +22,16 @@ namespace SpreadsheetEngine
         private SpreadsheetCell[,] cells;
 
         /// <summary>
+        /// Undo commands.
+        /// </summary>
+        private Stack<Command> undos;
+
+        /// <summary>
+        /// Redo commands.
+        /// </summary>
+        private Stack<Command> redos;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
         /// </summary>
         /// <param name="numRows">Number of spreadsheet cell rows.</param>
@@ -30,6 +40,9 @@ namespace SpreadsheetEngine
         {
             this.cells = new SpreadsheetCell[numRows, numColumns];
             this.InitializeCells();
+
+            this.undos = new Stack<Command>();
+            this.redos = new Stack<Command>();
         }
 
         /// <summary>
@@ -71,6 +84,89 @@ namespace SpreadsheetEngine
         public int RowCount()
         {
             return this.cells.GetLength(0);
+        }
+
+        /// <summary>
+        /// Executes and adds a command to the undos stack.
+        /// Resets the redos stack.
+        /// </summary>
+        /// <param name="undoCommand">Undo command.</param>
+        public void AddUndo(Command undoCommand)
+        {
+            undoCommand.Execute();
+            this.undos.Push(undoCommand);
+
+            // reset redos stack.
+            while (this.redos.Count > 0)
+            {
+                this.redos.Pop();
+            }
+        }
+
+        /// <summary>
+        /// Pops and executes a command from the undos stack.
+        /// Adds the command to the redos stack.
+        /// Does nothing if the undos stack is empty.
+        /// </summary>
+        public void ExecuteUndo()
+        {
+            if (!this.UndosIsEmpty())
+            {
+                Command undoCommand = this.undos.Pop();
+                undoCommand.UnExecute();
+                this.redos.Push(undoCommand);
+            }
+        }
+
+        /// <summary>
+        /// Pops and executes a command from the redos stack.
+        /// Adds the command to the undos stack.
+        /// DOes nothing if the redos stack is empty.
+        /// </summary>
+        public void ExecuteRedo()
+        {
+            if (!this.RedosIsEmpty())
+            {
+                Command redoCommand = this.redos.Pop();
+                redoCommand.Execute();
+                this.undos.Push(redoCommand);
+            }
+        }
+
+        /// <summary>
+        /// Returns if the undos stack is empty.
+        /// </summary>
+        /// <returns>If the undoes stack is empty.</returns>
+        public bool UndosIsEmpty()
+        {
+            return this.undos.Count <= 0;
+        }
+
+        /// <summary>
+        /// Returns if the redos stack is empty.
+        /// </summary>
+        /// <returns>If the redos stack is empty.</returns>
+        public bool RedosIsEmpty()
+        {
+            return this.redos.Count <= 0;
+        }
+
+        /// <summary>
+        /// Returns the dscription of the undo on the top of the undos stack.
+        /// </summary>
+        /// <returns>Undo description.</returns>
+        public string GetUndoText()
+        {
+            return this.undos.Peek().Description;
+        }
+
+        /// <summary>
+        /// Returns the description of the redo on the top of the redos stack.
+        /// </summary>
+        /// <returns>Redo description.</returns>
+        public string GetRedoText()
+        {
+            return this.redos.Peek().Description;
         }
 
         /// <summary>
