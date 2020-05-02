@@ -137,7 +137,7 @@ namespace CptS321
                 }
 
                 // If the current char is a valid operator
-                else if (this.IsValidOperator(currChar))
+                else if (opFact.IsValidOperator(currChar))
                 {
                     // if the stack is empty or the next char is a left parenthesis
                     if (stack.Count <= 0 || stack.Peek().Equals('('))
@@ -203,7 +203,7 @@ namespace CptS321
                         currChar = expressionArray[j];
 
                         // if the next char is not an operator
-                        if (!this.IsValidOperator(currChar))
+                        if (!opFact.IsValidOperator(currChar))
                         {
                             variable += expressionArray[j].ToString();
                             i++;
@@ -235,17 +235,6 @@ namespace CptS321
             }
 
             return postfixList;
-        }
-
-        /// <summary>
-        /// Returns if char input is a valid operator.
-        /// Current valid operators: + - * /.
-        /// </summary>
-        /// <param name="input">Input character.</param>
-        /// <returns>Bool respresenting if input is a valid operator.</returns>
-        private bool IsValidOperator(char input)
-        {
-            return input == '+' || input == '-' || input == '*' || input == '/';
         }
 
         /// <summary>

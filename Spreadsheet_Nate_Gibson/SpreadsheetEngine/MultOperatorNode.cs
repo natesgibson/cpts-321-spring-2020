@@ -24,7 +24,7 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Gets the operator.
         /// </summary>
-        public override char Operator => '*';
+        public static new char Operator => '*';
 
         /// <summary>
         /// Gets precedence of operator.
