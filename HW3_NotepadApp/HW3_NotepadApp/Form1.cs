@@ -63,5 +63,33 @@ namespace HW3_NotepadApp
                 fileStream.Close();
             }
         }
+
+        private void LoadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream fileStream = openFileDialog.OpenFile();
+                TextReader reader = new StreamReader(fileStream);
+
+                this.TextLoad(reader);
+
+                fileStream.Close();
+                reader.Close();
+            }
+        }
+
+        /// <summary>
+        /// Loads the text reader into mainText.
+        /// </summary>
+        /// <param name="reader">Text reader.</param>
+        private void TextLoad(TextReader reader)
+        {
+            this.mainText.Text = reader.ReadToEnd();
+        }
     }
 }
