@@ -4,9 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using CptS321;
 
 namespace SpreadsheetEngine
@@ -30,6 +33,15 @@ namespace SpreadsheetEngine
         /// Redo commands.
         /// </summary>
         private Stack<Command> redos;
+
+        /// <summary>
+        /// Alphabet character array for working with cell names.
+        /// </summary>
+        private char[] alphabet =
+        {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
@@ -84,6 +96,94 @@ namespace SpreadsheetEngine
         public int RowCount()
         {
             return this.cells.GetLength(0);
+        }
+
+        /// <summary>
+        /// Saves a new spreadsheet configuration to a stream.
+        /// </summary>
+        /// <param name="stream">Save stream.</param>
+        public void Save(Stream stream)
+        {
+            XmlWriter writer = XmlWriter.Create(stream);
+            writer.WriteStartDocument();
+            writer.WriteStartElement("spreadsheet");
+
+            foreach (SpreadsheetCell cell in this.cells)
+            {
+                uint bgColor = cell.BGColor;
+                string cellText = cell.Text;
+
+                // if cell has any non-default properties:
+                if (bgColor != 0xFFFFFFFF || cellText != string.Empty)
+                {
+                    string cellName = string.Empty + this.alphabet[cell.ColumnIndex] + (cell.RowIndex + 1);
+
+                    writer.WriteStartElement("cell");
+                    writer.WriteAttributeString("name", cellName);
+
+                    // if cell has non-default bgcolor:
+                    if (bgColor != 0xFFFFFFFF)
+                    {
+                        writer.WriteStartElement("bgcolor");
+                        writer.WriteString(bgColor.ToString("X"));
+                        writer.WriteEndElement();
+                    }
+
+                    // if cell has non-default text:
+                    if (cellText != string.Empty)
+                    {
+                        writer.WriteStartElement("text");
+                        writer.WriteString(cellText);
+                        writer.WriteEndElement();
+                    }
+
+                    writer.WriteEndElement();
+                }
+            }
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Close();
+        }
+
+        /// <summary>
+        /// Loads a new spreadsheet configuration from stream.
+        /// </summary>
+        /// <param name="stream">Spreadsheet configuration stream.</param>
+        public void Load(Stream stream)
+        {
+            XDocument doc = XDocument.Load(stream);
+
+            if (doc.Elements().ToArray()[0].Name == "spreadsheet")
+            {
+                // The array of elements one level down. Should be cell elements.
+                XElement[] elements = doc.Elements().Elements().ToArray();
+
+                for (int i = 0; i < elements.Length; i++)
+                {
+                    XElement element = elements[i];
+
+                    if (element.Name == "cell")
+                    {
+                        XAttribute name = element.Attribute(XName.Get("name"));
+                        SpreadsheetCell currCell = this.GetCellFromName(name.Value);
+
+                        // Loops over cell elements for text and bg color elements
+                        foreach (XElement childElement in element.Elements())
+                        {
+                            if (childElement.Name == "text")
+                            {
+                                currCell.Text = childElement.Value;
+                            }
+                            else if (childElement.Name == "bgcolor")
+                            {
+                                // Converts hex string to uints
+                                currCell.BGColor = Convert.ToUInt32(childElement.Value, 16);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -264,7 +364,7 @@ namespace SpreadsheetEngine
             List<string> variableNames = et.GetVariableNames();
             foreach (string name in variableNames)
             {
-                SpreadsheetCell varCell = this.GetVariableCell(name);
+                SpreadsheetCell varCell = this.GetCellFromName(name);
 
                 // If the cell's value string cannot be parsed as a double, defaults to 0.
                 double value = 0.0;
@@ -288,14 +388,8 @@ namespace SpreadsheetEngine
         /// </summary>
         /// <param name="variableName">String which represents a cell.</param>
         /// <returns>Spreadsheet cell represented by the variable string.</returns>
-        private SpreadsheetCell GetVariableCell(string variableName)
+        private SpreadsheetCell GetCellFromName(string variableName)
         {
-            char[] alphabet =
-            {
-                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            };
-
             int rowIndex = -1;
             int colIndex = -1;
 
@@ -303,7 +397,7 @@ namespace SpreadsheetEngine
             {
                 char colChar = variableName.ToCharArray()[0];
                 rowIndex = int.Parse(variableName.Split(colChar)[1]) - 1;
-                colIndex = Array.IndexOf(alphabet, colChar);
+                colIndex = Array.IndexOf(this.alphabet, colChar);
             }
             catch (FormatException)
             {

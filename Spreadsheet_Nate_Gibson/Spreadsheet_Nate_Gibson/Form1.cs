@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,47 +53,10 @@ namespace Spreadsheet_Nate_Gibson
             this.DataGridView1.CellEndEdit += this.DataGridView1_CellEndEdit;
 
             this.colorDialog = new ColorDialog();
-
-            this.UpdateUndoRedoButtons();
         }
 
         /// <summary>
-        /// When a dataGridView1 cell begins to be edited, set its value to equal
-        /// its corresponding spreadsheet cell's text value.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
-
-            dgCell.Value = ssCell.Text;
-        }
-
-        /// <summary>
-        /// When a dataGridView1 cell ends being edited,
-        /// set the ss cell's text value to equal the cc cell's value,
-        /// and reset the dg cell to the ss cell's value.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
-        private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
-
-            string newText = dgCell.Value.ToString();
-            CellTextCommand cmd = new CellTextCommand(ssCell, newText);
-            this.spreadsheet.AddUndo(cmd);
-
-            this.UpdateUndoRedoButtons();
-
-            dgCell.Value = ssCell.Value;
-        }
-
-        /// <summary>
-        /// Initializes each DG cell's value to equal its spreadsheet cell counterpart's value.
+        /// Initializes each DG cell's properties to equal its spreadsheet cell counterpart's properties.
         /// </summary>
         private void InitializeDGCells()
         {
@@ -103,6 +67,7 @@ namespace Spreadsheet_Nate_Gibson
                     DataGridViewCell dgCell = this.DataGridView1.Rows[i].Cells[j];
                     SpreadsheetCell ssCell = this.spreadsheet.GetCell(i, j);
 
+                    dgCell.Style.BackColor = Color.FromArgb((int)ssCell.BGColor);
                     dgCell.Value = ssCell.Value;
                 }
             }
@@ -120,6 +85,8 @@ namespace Spreadsheet_Nate_Gibson
 
             this.spreadsheet = new Spreadsheet(50, 26);
             this.spreadsheet.CellPropertyChanged += this.UpdateCellProperty;
+
+            this.UpdateUndoRedoButtons();
         }
 
         /// <summary>
@@ -176,29 +143,80 @@ namespace Spreadsheet_Nate_Gibson
         }
 
         /// <summary>
-        /// Updates the background color of currently selected cells in the spreadsheet.
-        /// Users select a color with a color dialog window.
-        /// Updates the undo/redo menu buttons.
+        /// When a dataGridView1 cell begins to be edited, set its value to equal
+        /// its corresponding spreadsheet cell's text value.
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (this.colorDialog.ShowDialog() == DialogResult.OK)
+            DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
+
+            dgCell.Value = ssCell.Text;
+        }
+
+        /// <summary>
+        /// When a dataGridView1 cell ends being edited,
+        /// set the ss cell's text value to equal the cc cell's value,
+        /// and reset the dg cell to the ss cell's value.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewCell dgCell = this.DataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            SpreadsheetCell ssCell = this.spreadsheet.GetCell(e.RowIndex, e.ColumnIndex);
+
+            string newText = dgCell.Value.ToString();
+            CellTextCommand cmd = new CellTextCommand(ssCell, newText);
+            this.spreadsheet.AddUndo(cmd);
+
+            this.UpdateUndoRedoButtons();
+
+            dgCell.Value = ssCell.Value;
+        }
+
+        /// <summary>
+        /// Loads a new spreadsheet configuration from an xml file.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                uint newColor = (uint)this.colorDialog.Color.ToArgb();
-                List<SpreadsheetCell> changingCells = new List<SpreadsheetCell>();
+                // resets the spreadsheet.
+                this.ResetDataGrid();
 
-                foreach (DataGridViewCell dgCell in this.DataGridView1.SelectedCells)
-                {
-                    SpreadsheetCell ssCell = this.spreadsheet.GetCell(dgCell.RowIndex, dgCell.ColumnIndex);
-                    changingCells.Add(ssCell);
-                }
+                Stream fileStream = openFileDialog.OpenFile();
+                this.spreadsheet.Load(fileStream);
+                fileStream.Close();
+            }
+        }
 
-                BGColorCommand cmd = new BGColorCommand(changingCells, newColor);
-                this.spreadsheet.AddUndo(cmd);
+        /// <summary>
+        /// Saves the current spreadsheet configuration to an xml file.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-                this.UpdateUndoRedoButtons();
+            saveFileDialog.Filter = "txt files (*.xml)|*.xml|All files (*.*)|*.*";
+            saveFileDialog.FilterIndex = 1;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream fileStream = saveFileDialog.OpenFile();
+                this.spreadsheet.Save(fileStream);
+                fileStream.Close();
             }
         }
 
@@ -252,6 +270,33 @@ namespace Spreadsheet_Nate_Gibson
             {
                 this.RedoToolStripMenuItem.Enabled = true;
                 this.RedoToolStripMenuItem.Text = "Redo " + this.spreadsheet.GetRedoText();
+            }
+        }
+
+        /// <summary>
+        /// Updates the background color of currently selected cells in the spreadsheet.
+        /// Users select a color with a color dialog window.
+        /// Updates the undo/redo menu buttons.
+        /// </summary>
+        /// <param name="sender">Sender object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                uint newColor = (uint)this.colorDialog.Color.ToArgb();
+                List<SpreadsheetCell> changingCells = new List<SpreadsheetCell>();
+
+                foreach (DataGridViewCell dgCell in this.DataGridView1.SelectedCells)
+                {
+                    SpreadsheetCell ssCell = this.spreadsheet.GetCell(dgCell.RowIndex, dgCell.ColumnIndex);
+                    changingCells.Add(ssCell);
+                }
+
+                BGColorCommand cmd = new BGColorCommand(changingCells, newColor);
+                this.spreadsheet.AddUndo(cmd);
+
+                this.UpdateUndoRedoButtons();
             }
         }
 
