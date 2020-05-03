@@ -87,12 +87,14 @@
             this.LoadFibonacciNumbersfirst50ToolStripMenuItem.Name = "LoadFibonacciNumbersfirst50ToolStripMenuItem";
             this.LoadFibonacciNumbersfirst50ToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
             this.LoadFibonacciNumbersfirst50ToolStripMenuItem.Text = "Load Fibonacci numbers (first 50)";
+            this.LoadFibonacciNumbersfirst50ToolStripMenuItem.Click += new System.EventHandler(this.LoadFibonacciNumbersfirst50ToolStripMenuItem_Click);
             // 
             // LoadFibonacciNumbersfirst100ToolStripMenuItem
             // 
             this.LoadFibonacciNumbersfirst100ToolStripMenuItem.Name = "LoadFibonacciNumbersfirst100ToolStripMenuItem";
             this.LoadFibonacciNumbersfirst100ToolStripMenuItem.Size = new System.Drawing.Size(320, 26);
             this.LoadFibonacciNumbersfirst100ToolStripMenuItem.Text = "Load Fibonacci numbers (first 100)";
+            this.LoadFibonacciNumbersfirst100ToolStripMenuItem.Click += new System.EventHandler(this.LoadFibonacciNumbersfirst100ToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 

@@ -37,6 +37,44 @@ namespace HW3_NotepadApp
         }
 
         /// <summary>
+        /// Loads the text reader into mainText.
+        /// </summary>
+        /// <param name="reader">Text reader.</param>
+        private void LoadText(TextReader reader)
+        {
+            this.mainText.Text = reader.ReadToEnd();
+        }
+
+        private void LoadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Stream fileStream = openFileDialog.OpenFile();
+                TextReader reader = new StreamReader(fileStream);
+
+                this.LoadText(reader);
+
+                fileStream.Close();
+                reader.Close();
+            }
+        }
+
+        private void LoadFibonacciNumbersfirst50ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.LoadText(new FibonacciTextReader(50));
+        }
+
+        private void LoadFibonacciNumbersfirst100ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.LoadText(new FibonacciTextReader(100));
+        }
+
+        /// <summary>
         /// Event for save to file button click.
         /// Saves the contents of mainText to a text file.
         /// </summary>
@@ -62,34 +100,6 @@ namespace HW3_NotepadApp
                 writer.Close();
                 fileStream.Close();
             }
-        }
-
-        private void LoadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog.FilterIndex = 1;
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                Stream fileStream = openFileDialog.OpenFile();
-                TextReader reader = new StreamReader(fileStream);
-
-                this.TextLoad(reader);
-
-                fileStream.Close();
-                reader.Close();
-            }
-        }
-
-        /// <summary>
-        /// Loads the text reader into mainText.
-        /// </summary>
-        /// <param name="reader">Text reader.</param>
-        private void TextLoad(TextReader reader)
-        {
-            this.mainText.Text = reader.ReadToEnd();
         }
     }
 }
