@@ -340,16 +340,23 @@ namespace SpreadsheetEngine
         /// </summary>
         /// <param name="cell">cell who's text is to be evaluated.</param>
         /// <returns>Evaluated expression.</returns>
-        private double EvaluateCellExpression(SpreadsheetCell cell)
+        private string EvaluateCellExpression(SpreadsheetCell cell)
         {
             // removes the first character (which should be '=') and whitespace.
             string expression = cell.Text.Substring(1).Replace(" ", string.Empty);
 
             ExpressionTree et = new ExpressionTree(expression);
 
-            this.HandleCellVariables(et, cell);
+            bool variableError = this.HandleCellVariables(et, cell);
 
-            return et.Evaluate();
+            if (!variableError)
+            {
+                return et.Evaluate().ToString();
+            }
+            else
+            {
+                return cell.Value;
+            }
         }
 
         /// <summary>
@@ -358,26 +365,48 @@ namespace SpreadsheetEngine
         /// current cell to each variable cell's property changed event.
         /// </summary>
         /// <param name="et">Expression tree.</param>
-        /// <param name="currCell">Current spreadsheet cell.</param>
-        private void HandleCellVariables(ExpressionTree et, SpreadsheetCell currCell)
+        /// <param name="currCell">Current spreadsheet cell.</param>\
+        /// <returns>If there was an error.</returns>
+        private bool HandleCellVariables(ExpressionTree et, SpreadsheetCell currCell)
         {
+            bool variableError = false;
+
             List<string> variableNames = et.GetVariableNames();
             foreach (string name in variableNames)
             {
                 SpreadsheetCell varCell = this.GetCellFromName(name);
 
-                // If the cell's value string cannot be parsed as a double, defaults to 0.
-                double value = 0.0;
-                try
+                if (varCell == null)
                 {
-                    value = double.Parse(varCell.Value);
+                    currCell.SetValue("!(bad reference)");
+                    variableError = true;
                 }
-                catch (FormatException) { }
+                else if (varCell == currCell)
+                {
+                    currCell.SetValue("!(self reference)");
+                    variableError = true;
+                }
+                else if (this.ContainsCircularReference(currCell, varCell))
+                {
+                    currCell.SetValue("!(circular reference)");
+                    variableError = true;
+                }
+                else
+                {
+                    // If the cell's value string cannot be parsed as a double, defaults to 0.
+                    double value = 0.0;
+                    try
+                    {
+                        value = double.Parse(varCell.Value);
+                    }
+                    catch (FormatException) { }
 
-                et.SetVariable(name, value);
-
-                currCell.SubToCellChange(varCell);
+                    et.SetVariable(name, value);
+                    currCell.SubToCellChange(varCell);
+                }
             }
+
+            return variableError;
         }
 
         /// <summary>
@@ -401,10 +430,42 @@ namespace SpreadsheetEngine
             }
             catch (FormatException)
             {
-                throw new InvalidCellNameException("The format of the cell name is invalid.");
+                return null;
             }
 
             return this.GetCell(rowIndex, colIndex);
+        }
+
+        /// <summary>
+        /// Returns if the refCell has any references to the ogCell.
+        /// </summary>
+        /// <param name="ogCell">Original cell.</param>
+        /// <param name="refCell">Reference cell.</param>
+        /// <returns>If there are circular references.</returns>
+        private bool ContainsCircularReference(SpreadsheetCell ogCell, SpreadsheetCell refCell)
+        {
+            if (refCell.Text.StartsWith("="))
+            {
+                ExpressionTree et = new ExpressionTree(refCell.Text.Substring(1).Replace(" ", string.Empty));
+                List<string> names = et.GetVariableNames();
+
+                foreach (string name in names)
+                {
+                    SpreadsheetCell currCell = this.GetCellFromName(name);
+                    if (currCell == ogCell)
+                    {
+                        return true;
+                    }
+
+                    bool containsCircularReference = this.ContainsCircularReference(ogCell, currCell);
+                    if (containsCircularReference)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
